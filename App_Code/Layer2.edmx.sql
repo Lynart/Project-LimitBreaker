@@ -2,13 +2,11 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/05/2012 13:47:53
+-- Date Created: 11/15/2012 12:50:10
 -- Generated from EDMX file: C:\Users\Lynart\Documents\Project LimitBreaker\App_Code\Layer2.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
-GO
-USE [tempdb];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -330,7 +328,7 @@ GO
 CREATE TABLE [dbo].[ExerciseBases_Exercise] (
     [baseExperiecne] float  NOT NULL,
     [weightModifier] float  NOT NULL,
-    [heightModifier] float  NOT NULL,
+    [repModifier] float  NOT NULL,
     [distanceModifier] float  NOT NULL,
     [timeModifier] float  NOT NULL,
     [id] int  NOT NULL

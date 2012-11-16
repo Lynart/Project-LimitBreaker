@@ -298,7 +298,7 @@
     </Key>
     <Property Name="baseExperiecne" Type="float" Nullable="false" />
     <Property Name="weightModifier" Type="float" Nullable="false" />
-    <Property Name="heightModifier" Type="float" Nullable="false" />
+    <Property Name="repModifier" Type="float" Nullable="false" />
     <Property Name="distanceModifier" Type="float" Nullable="false" />
     <Property Name="timeModifier" Type="float" Nullable="false" />
     <Property Name="id" Type="int" Nullable="false" />
@@ -771,7 +771,7 @@
         <EntityType Name="Exercise" BaseType="Layer2.ExerciseBase">
           <Property Type="Double" Name="baseExperiecne" Nullable="false" />
           <Property Type="Double" Name="weightModifier" Nullable="false" />
-          <Property Type="Double" Name="heightModifier" Nullable="false" />
+          <Property Type="Double" Name="repModifier" Nullable="false" />
           <Property Type="Double" Name="distanceModifier" Nullable="false" />
           <Property Type="Double" Name="timeModifier" Nullable="false" />
         </EntityType>
@@ -962,7 +962,7 @@
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="baseExperiecne" ColumnName="baseExperiecne" />
           <ScalarProperty Name="weightModifier" ColumnName="weightModifier" />
-          <ScalarProperty Name="heightModifier" ColumnName="heightModifier" />
+          <ScalarProperty Name="repModifier" ColumnName="repModifier" />
           <ScalarProperty Name="distanceModifier" ColumnName="distanceModifier" />
           <ScalarProperty Name="timeModifier" ColumnName="timeModifier" />
         </MappingFragment>
@@ -1298,7 +1298,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="Layer2" ZoomLevel="63" >
+      <Diagram Name="Layer2" ZoomLevel="94" >
         <EntityTypeShape EntityType="Layer2.ExerciseBase" Width="1.5" PointX="3.5" PointY="1.125" Height="3.3263964843749996" />
         <EntityTypeShape EntityType="Layer2.ScheduledExercise" Width="2.25" PointX="3.125" PointY="6.25" Height="1.7879850260416665" />
         <EntityTypeShape EntityType="Layer2.LoggedExercise" Width="1.5" PointX="6.25" PointY="1.75" Height="2.5571907552083335" />

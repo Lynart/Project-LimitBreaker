@@ -92,7 +92,7 @@ public partial class Exercise : ExerciseBase
         set;
     }
 
-    public virtual double heightModifier
+    public virtual double repModifier
     {
         get;
         set;
