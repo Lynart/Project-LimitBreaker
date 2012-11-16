@@ -357,6 +357,12 @@ public partial class ExerciseGoal
     }
     private Routine _routine;
 
+    public virtual ExerciseBase ExerciseBase
+    {
+        get;
+        set;
+    }
+
     #endregion
     #region Association Fixup
 
@@ -874,20 +880,37 @@ public partial class LoggedExercise
     #endregion
     #region Navigation Properties
 
-    public virtual SetAttributes SetAttribute
+    public virtual ICollection<SetAttributes> SetAttributes
     {
-        get { return _setAttribute; }
+        get
+        {
+            if (_setAttributes == null)
+            {
+                var newCollection = new FixupCollection<SetAttributes>();
+                newCollection.CollectionChanged += FixupSetAttributes;
+                _setAttributes = newCollection;
+            }
+            return _setAttributes;
+        }
         set
         {
-            if (!ReferenceEquals(_setAttribute, value))
+            if (!ReferenceEquals(_setAttributes, value))
             {
-                var previousValue = _setAttribute;
-                _setAttribute = value;
-                FixupSetAttribute(previousValue);
+                var previousValue = _setAttributes as FixupCollection<SetAttributes>;
+                if (previousValue != null)
+                {
+                    previousValue.CollectionChanged -= FixupSetAttributes;
+                }
+                _setAttributes = value;
+                var newValue = value as FixupCollection<SetAttributes>;
+                if (newValue != null)
+                {
+                    newValue.CollectionChanged += FixupSetAttributes;
+                }
             }
         }
     }
-    private SetAttributes _setAttribute;
+    private ICollection<SetAttributes> _setAttributes;
 
     public virtual LimitBreaker LimitBreaker
     {
@@ -937,19 +960,6 @@ public partial class LoggedExercise
     #endregion
     #region Association Fixup
 
-    private void FixupSetAttribute(SetAttributes previousValue)
-    {
-        if (previousValue != null && ReferenceEquals(previousValue.LoggedExercise, this))
-        {
-            previousValue.LoggedExercise = null;
-        }
-
-        if (SetAttribute != null)
-        {
-            SetAttribute.LoggedExercise = this;
-        }
-    }
-
     private void FixupLimitBreaker(LimitBreaker previousValue)
     {
         if (previousValue != null && previousValue.LoggedExercises.Contains(this))
@@ -994,6 +1004,28 @@ public partial class LoggedExercise
             if (!ExerciseBase.LoggedExercise.Contains(this))
             {
                 ExerciseBase.LoggedExercise.Add(this);
+            }
+        }
+    }
+
+    private void FixupSetAttributes(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems != null)
+        {
+            foreach (SetAttributes item in e.NewItems)
+            {
+                item.LoggedExercise = this;
+            }
+        }
+
+        if (e.OldItems != null)
+        {
+            foreach (SetAttributes item in e.OldItems)
+            {
+                if (ReferenceEquals(item.LoggedExercise, this))
+                {
+                    item.LoggedExercise = null;
+                }
             }
         }
     }
@@ -1693,14 +1725,17 @@ public partial class SetAttributes
 
     private void FixupLoggedExercise(LoggedExercise previousValue)
     {
-        if (previousValue != null && ReferenceEquals(previousValue.SetAttribute, this))
+        if (previousValue != null && previousValue.SetAttributes.Contains(this))
         {
-            previousValue.SetAttribute = null;
+            previousValue.SetAttributes.Remove(this);
         }
 
         if (LoggedExercise != null)
         {
-            LoggedExercise.SetAttribute = this;
+            if (!LoggedExercise.SetAttributes.Contains(this))
+            {
+                LoggedExercise.SetAttributes.Add(this);
+            }
         }
     }
 

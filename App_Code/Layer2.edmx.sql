@@ -2,11 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/15/2012 12:50:10
+-- Date Created: 11/16/2012 11:53:07
 -- Generated from EDMX file: C:\Users\Lynart\Documents\Project LimitBreaker\App_Code\Layer2.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
+GO
+USE [bts530_123a01];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -16,7 +18,7 @@ GO
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[FK_LoggedExerciseSetAttributes]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LoggedExercises] DROP CONSTRAINT [FK_LoggedExerciseSetAttributes];
+    ALTER TABLE [dbo].[SetAttributes] DROP CONSTRAINT [FK_LoggedExerciseSetAttributes];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ScheduledExerciseExercise]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ScheduledExercises] DROP CONSTRAINT [FK_ScheduledExerciseExercise];
@@ -71,6 +73,9 @@ IF OBJECT_ID(N'[dbo].[FK_MuscleGroupExercise]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_MuscleGroupSuggestedExercise]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MuscleGroups] DROP CONSTRAINT [FK_MuscleGroupSuggestedExercise];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ExerciseGoalExerciseBase]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ExerciseGoals] DROP CONSTRAINT [FK_ExerciseGoalExerciseBase];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ScheduledReminder_inherits_Notification]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Notifications_ScheduledReminder] DROP CONSTRAINT [FK_ScheduledReminder_inherits_Notification];
@@ -176,7 +181,6 @@ CREATE TABLE [dbo].[LoggedExercises] (
     [timeLogged] datetime  NOT NULL,
     [note] nvarchar(max)  NULL,
     [id] bigint IDENTITY(1,1) NOT NULL,
-    [SetAttribute_id] int  NOT NULL,
     [LimitBreaker_id] int  NOT NULL,
     [Routine_id] int  NULL,
     [ExerciseBase_id] int  NOT NULL
@@ -189,7 +193,8 @@ CREATE TABLE [dbo].[SetAttributes] (
     [weight] float  NULL,
     [distance] float  NULL,
     [time] bigint  NULL,
-    [reps] smallint  NULL
+    [reps] smallint  NULL,
+    [LoggedExercise_id] bigint  NOT NULL
 );
 GO
 
@@ -197,7 +202,8 @@ GO
 CREATE TABLE [dbo].[ExerciseGoals] (
     [id] int IDENTITY(1,1) NOT NULL,
     [SetAttribute_id] int  NOT NULL,
-    [Routine_id] int  NOT NULL
+    [Routine_id] int  NOT NULL,
+    [ExerciseBase_id] int  NOT NULL
 );
 GO
 
@@ -451,18 +457,18 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [SetAttribute_id] in table 'LoggedExercises'
-ALTER TABLE [dbo].[LoggedExercises]
+-- Creating foreign key on [LoggedExercise_id] in table 'SetAttributes'
+ALTER TABLE [dbo].[SetAttributes]
 ADD CONSTRAINT [FK_LoggedExerciseSetAttributes]
-    FOREIGN KEY ([SetAttribute_id])
-    REFERENCES [dbo].[SetAttributes]
+    FOREIGN KEY ([LoggedExercise_id])
+    REFERENCES [dbo].[LoggedExercises]
         ([id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_LoggedExerciseSetAttributes'
 CREATE INDEX [IX_FK_LoggedExerciseSetAttributes]
-ON [dbo].[LoggedExercises]
-    ([SetAttribute_id]);
+ON [dbo].[SetAttributes]
+    ([LoggedExercise_id]);
 GO
 
 -- Creating foreign key on [ExerciseBase_id] in table 'ScheduledExercises'
@@ -715,6 +721,20 @@ ADD CONSTRAINT [FK_MuscleGroupSuggestedExercise]
 CREATE INDEX [IX_FK_MuscleGroupSuggestedExercise]
 ON [dbo].[MuscleGroups]
     ([SuggestedExercise_id]);
+GO
+
+-- Creating foreign key on [ExerciseBase_id] in table 'ExerciseGoals'
+ALTER TABLE [dbo].[ExerciseGoals]
+ADD CONSTRAINT [FK_ExerciseGoalExerciseBase]
+    FOREIGN KEY ([ExerciseBase_id])
+    REFERENCES [dbo].[ExerciseBases]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ExerciseGoalExerciseBase'
+CREATE INDEX [IX_FK_ExerciseGoalExerciseBase]
+ON [dbo].[ExerciseGoals]
+    ([ExerciseBase_id]);
 GO
 
 -- Creating foreign key on [id] in table 'Notifications_ScheduledReminder'

@@ -100,6 +100,10 @@
       <End Role="MuscleGroup" EntitySet="MuscleGroups" />
       <End Role="SuggestedExercise" EntitySet="SuggestedExercises" />
     </AssociationSet>
+    <AssociationSet Name="ExerciseGoalExerciseBase" Association="Layer2.Store.ExerciseGoalExerciseBase">
+      <End Role="ExerciseGoal" EntitySet="ExerciseGoals" />
+      <End Role="ExerciseBase" EntitySet="ExerciseBases" />
+    </AssociationSet>
     <AssociationSet Name="FK_ScheduledReminder_inherits_Notification" Association="Layer2.Store.FK_ScheduledReminder_inherits_Notification">
       <End Role="Notification" EntitySet="Notifications" />
       <End Role="ScheduledReminder" EntitySet="Notifications_ScheduledReminder" />
@@ -146,7 +150,6 @@
     <Property Name="timeLogged" Type="datetime" Nullable="false" />
     <Property Name="note" Type="nvarchar(max)" Nullable="true" />
     <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="SetAttribute_id" Type="int" Nullable="false" />
     <Property Name="LimitBreaker_id" Type="int" Nullable="false" />
     <Property Name="Routine_id" Type="int" Nullable="true" />
     <Property Name="ExerciseBase_id" Type="int" Nullable="false" />
@@ -160,6 +163,7 @@
     <Property Name="distance" Type="float" Nullable="true" />
     <Property Name="time" Type="bigint" Nullable="true" />
     <Property Name="reps" Type="smallint" Nullable="true" />
+    <Property Name="LoggedExercise_id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="ExerciseGoals">
     <Key>
@@ -168,6 +172,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SetAttribute_id" Type="int" Nullable="false" />
     <Property Name="Routine_id" Type="int" Nullable="false" />
+    <Property Name="ExerciseBase_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Routines">
     <Key>
@@ -304,14 +309,14 @@
     <Property Name="id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="LoggedExerciseSetAttributes">
-    <End Role="LoggedExercise" Type="Layer2.Store.LoggedExercises" Multiplicity="*" />
-    <End Role="SetAttributes" Type="Layer2.Store.SetAttributes" Multiplicity="1" />
+    <End Role="LoggedExercise" Type="Layer2.Store.LoggedExercises" Multiplicity="1" />
+    <End Role="SetAttributes" Type="Layer2.Store.SetAttributes" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="SetAttributes">
+      <Principal Role="LoggedExercise">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="LoggedExercise">
-        <PropertyRef Name="SetAttribute_id" />
+      <Dependent Role="SetAttributes">
+        <PropertyRef Name="LoggedExercise_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -531,6 +536,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ExerciseGoalExerciseBase">
+    <End Role="ExerciseGoal" Type="Layer2.Store.ExerciseGoals" Multiplicity="*" />
+    <End Role="ExerciseBase" Type="Layer2.Store.ExerciseBases" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ExerciseBase">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ExerciseGoal">
+        <PropertyRef Name="ExerciseBase_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ScheduledReminder_inherits_Notification">
     <End Role="Notification" Type="Layer2.Store.Notifications" Multiplicity="1" />
     <End Role="ScheduledReminder" Type="Layer2.Store.Notifications_ScheduledReminder" Multiplicity="0..1" />
@@ -663,6 +680,10 @@
             <End Role="MuscleGroup" EntitySet="MuscleGroups" />
             <End Role="SuggestedExercise" EntitySet="SuggestedExercises" />
           </AssociationSet>
+          <AssociationSet Name="ExerciseGoalExerciseBase" Association="Layer2.ExerciseGoalExerciseBase">
+            <End Role="ExerciseGoal" EntitySet="ExerciseGoals" />
+            <End Role="ExerciseBase" EntitySet="ExerciseBases" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ExerciseBase">
           <Key>
@@ -700,7 +721,7 @@
           <Property Type="DateTime" Name="timeLogged" Nullable="false" />
           <Property Type="String" Name="note" Nullable="true" />
           <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="SetAttribute" Relationship="Layer2.LoggedExerciseSetAttributes" FromRole="LoggedExercise" ToRole="SetAttributes" />
+          <NavigationProperty Name="SetAttributes" Relationship="Layer2.LoggedExerciseSetAttributes" FromRole="LoggedExercise" ToRole="SetAttributes" />
           <NavigationProperty Name="LimitBreaker" Relationship="Layer2.LimitBreakerLoggedExercise" FromRole="LoggedExercise" ToRole="LimitBreaker" />
           <NavigationProperty Name="Routine" Relationship="Layer2.LoggedExerciseRoutine" FromRole="LoggedExercise" ToRole="Routine" />
           <NavigationProperty Name="ExerciseBase" Relationship="Layer2.ExerciseLoggedExercise" FromRole="LoggedExercise" ToRole="Exercise" />
@@ -719,7 +740,7 @@
         </EntityType>
         <Association Name="LoggedExerciseSetAttributes">
           <End Type="Layer2.LoggedExercise" Role="LoggedExercise" Multiplicity="1" />
-          <End Type="Layer2.SetAttributes" Role="SetAttributes" Multiplicity="1" />
+          <End Type="Layer2.SetAttributes" Role="SetAttributes" Multiplicity="*" />
         </Association>
         <Association Name="ScheduledExerciseExercise">
           <End Type="Layer2.ScheduledExercise" Role="ScheduledExercise" Multiplicity="1" />
@@ -732,6 +753,7 @@
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="SetAttribute" Relationship="Layer2.ExerciseGoalSetAttributes" FromRole="ExerciseGoal" ToRole="SetAttributes" />
           <NavigationProperty Name="Routine" Relationship="Layer2.RoutineExerciseGoal" FromRole="ExerciseGoal" ToRole="Routine" />
+          <NavigationProperty Name="ExerciseBase" Relationship="Layer2.ExerciseGoalExerciseBase" FromRole="ExerciseGoal" ToRole="ExerciseBase" />
         </EntityType>
         <Association Name="ExerciseGoalSetAttributes">
           <End Type="Layer2.ExerciseGoal" Role="ExerciseGoal" Multiplicity="1" />
@@ -937,6 +959,10 @@
           <End Type="Layer2.MuscleGroup" Role="MuscleGroup" Multiplicity="*" />
           <End Type="Layer2.SuggestedExercise" Role="SuggestedExercise" Multiplicity="1" />
         </Association>
+        <Association Name="ExerciseGoalExerciseBase">
+          <End Type="Layer2.ExerciseGoal" Role="ExerciseGoal" Multiplicity="*" />
+          <End Type="Layer2.ExerciseBase" Role="ExerciseBase" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1126,11 +1152,11 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="LoggedExerciseSetAttributes" TypeName="Layer2.LoggedExerciseSetAttributes" StoreEntitySet="LoggedExercises">
-      <EndProperty Name="SetAttributes">
-        <ScalarProperty Name="id" ColumnName="SetAttribute_id" />
-      </EndProperty>
+    <AssociationSetMapping Name="LoggedExerciseSetAttributes" TypeName="Layer2.LoggedExerciseSetAttributes" StoreEntitySet="SetAttributes">
       <EndProperty Name="LoggedExercise">
+        <ScalarProperty Name="id" ColumnName="LoggedExercise_id" />
+      </EndProperty>
+      <EndProperty Name="SetAttributes">
         <ScalarProperty Name="id" ColumnName="id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -1279,6 +1305,14 @@
         <ScalarProperty Name="id" ColumnName="id" />
       </EndProperty>
     </AssociationSetMapping>
+    <AssociationSetMapping Name="ExerciseGoalExerciseBase" TypeName="Layer2.ExerciseGoalExerciseBase" StoreEntitySet="ExerciseGoals">
+      <EndProperty Name="ExerciseBase">
+        <ScalarProperty Name="id" ColumnName="ExerciseBase_id" />
+      </EndProperty>
+      <EndProperty Name="ExerciseGoal">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -1302,26 +1336,26 @@
         <EntityTypeShape EntityType="Layer2.ExerciseBase" Width="1.5" PointX="3.5" PointY="1.125" Height="3.3263964843749996" />
         <EntityTypeShape EntityType="Layer2.ScheduledExercise" Width="2.25" PointX="3.125" PointY="6.25" Height="1.7879850260416665" />
         <EntityTypeShape EntityType="Layer2.LoggedExercise" Width="1.5" PointX="6.25" PointY="1.75" Height="2.5571907552083335" />
-        <EntityTypeShape EntityType="Layer2.SetAttributes" Width="1.5" PointX="6.25" PointY="5.75" Height="2.3648893229166656" />
+        <EntityTypeShape EntityType="Layer2.SetAttributes" Width="1.5" PointX="6.25" PointY="7.375" Height="2.3648893229166656" />
         <AssociationConnector Association="Layer2.LoggedExerciseSetAttributes">
-          <ConnectorPoint PointX="7" PointY="4.3071907552083335" />
-          <ConnectorPoint PointX="7" PointY="5.75" />
+          <ConnectorPoint PointX="7.4375" PointY="4.3071907552083335" />
+          <ConnectorPoint PointX="7.4375" PointY="7.375" />
         </AssociationConnector>
         <AssociationConnector Association="Layer2.ScheduledExerciseExercise">
           <ConnectorPoint PointX="4.25" PointY="6.25" />
           <ConnectorPoint PointX="4.25" PointY="4.451396484375" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Layer2.ExerciseGoal" Width="1.5" PointX="9.875" PointY="5.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="Layer2.ExerciseGoal" Width="1.5" PointX="10.25" PointY="6.125" Height="1.7879850260416665" />
         <AssociationConnector Association="Layer2.ExerciseGoalSetAttributes">
-          <ConnectorPoint PointX="9.875" PointY="6.547841796875" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="6.5478417968749989" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="6.547841796875" />
-          <ConnectorPoint PointX="7.75" PointY="6.547841796875" />
+          <ConnectorPoint PointX="10.25" PointY="7.6439925130208337" />
+          <ConnectorPoint PointX="9.4895833333333339" PointY="7.6439925130208328" />
+          <ConnectorPoint PointX="9.3229166666666661" PointY="7.6439925130208337" />
+          <ConnectorPoint PointX="7.75" PointY="7.6439925130208337" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Layer2.Routine" Width="1.5" PointX="9.625" PointY="2.25" Height="2.3648893229166665" />
         <AssociationConnector Association="Layer2.RoutineExerciseGoal">
-          <ConnectorPoint PointX="10.5" PointY="4.6148893229166665" />
-          <ConnectorPoint PointX="10.5" PointY="5.75" />
+          <ConnectorPoint PointX="10.6875" PointY="4.6148893229166665" />
+          <ConnectorPoint PointX="10.6875" PointY="6.125" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Layer2.ScheduledRoutine" Width="1.875" PointX="12.125" PointY="2.75" Height="1.7879850260416665" />
         <AssociationConnector Association="Layer2.ScheduledRoutineRoutine">
@@ -1342,30 +1376,34 @@
         <EntityTypeShape EntityType="Layer2.ScheduledReminder" Width="1.5" PointX="9.25" PointY="9.125" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="Layer2.EmailNotification" Width="1.5" PointX="13.125" PointY="5.75" Height="1.4033821614583335" />
         <AssociationConnector Association="Layer2.ScheduledExerciseScheduledReminder">
-          <ConnectorPoint PointX="4.53125" PointY="8.422587890625" />
-          <ConnectorPoint PointX="4.53125" PointY="9.71875" />
-          <ConnectorPoint PointX="9.25" PointY="9.71875" />
+          <ConnectorPoint PointX="4.65625" PointY="8.422587890625" />
+          <ConnectorPoint PointX="4.65625" PointY="10.182444661458334" />
+          <ConnectorPoint PointX="9.25" PointY="10.182444661458334" />
         </AssociationConnector>
         <AssociationConnector Association="Layer2.ScheduledRoutineScheduledReminder" ManuallyRouted="false">
           <ConnectorPoint PointX="12.125" PointY="4.7999886067708335" />
-          <ConnectorPoint PointX="10.583333333333334" PointY="4.7999886067708326" />
-          <ConnectorPoint PointX="10.416666666666666" PointY="4.7999886067708335" />
+          <ConnectorPoint PointX="10.770833333333334" PointY="4.7999886067708326" />
+          <ConnectorPoint PointX="10.604166666666666" PointY="4.7999886067708335" />
           <ConnectorPoint PointX="9.40625" PointY="4.7999886067708335" />
           <ConnectorPoint PointX="9.40625" PointY="9.125" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Layer2.LimitBreaker" Width="2.125" PointX="15.875" PointY="1.5" Height="4.2879036458333335" />
         <AssociationConnector Association="Layer2.ScheduledExerciseLimitBreaker">
-          <ConnectorPoint PointX="5.375" PointY="8.2999886067708317" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="8.2999886067708317" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="8.2999886067708317" />
-          <ConnectorPoint PointX="13.791666666666666" PointY="8.2999886067708317" />
-          <ConnectorPoint PointX="13.958333333333334" PointY="8.2999886067708317" />
-          <ConnectorPoint PointX="16.9375" PointY="8.2999886067708317" />
-          <ConnectorPoint PointX="16.9375" PointY="5.7879036458333335" />
+          <ConnectorPoint PointX="5.21875" PointY="6.25" />
+          <ConnectorPoint PointX="5.21875" PointY="5.4806494726562436" />
+          <ConnectorPoint PointX="7.354166666666667" PointY="5.4806494726562427" />
+          <ConnectorPoint PointX="7.520833333333333" PointY="5.4806494726562436" />
+          <ConnectorPoint PointX="9.3229166666666661" PointY="5.4806494726562427" />
+          <ConnectorPoint PointX="9.4895833333333339" PointY="5.4806494726562436" />
+          <ConnectorPoint PointX="10.604166666666666" PointY="5.4806494726562427" />
+          <ConnectorPoint PointX="10.770833333333334" PointY="5.4806494726562436" />
+          <ConnectorPoint PointX="14.260416666666666" PointY="5.4806494726562427" />
+          <ConnectorPoint PointX="14.427083333333334" PointY="5.4806494726562436" />
+          <ConnectorPoint PointX="15.875" PointY="5.4806494726562436" />
         </AssociationConnector>
         <AssociationConnector Association="Layer2.LimitBreakerEmailNotification">
-          <ConnectorPoint PointX="15.875" PointY="2.0937499999999996" />
-          <ConnectorPoint PointX="14.34375" PointY="2.0937499999999996" />
+          <ConnectorPoint PointX="15.875" PointY="2.0937500000000004" />
+          <ConnectorPoint PointX="14.34375" PointY="2.0937500000000004" />
           <ConnectorPoint PointX="14.34375" PointY="5.75" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Layer2.Statistics" Width="1.5" PointX="19.125" PointY="2.75" Height="2.7494921874999996" />
@@ -1375,18 +1413,20 @@
         </AssociationConnector>
         <AssociationConnector Association="Layer2.SuggestionLimitBreaker">
           <ConnectorPoint PointX="2.9218775" PointY="10.625" />
-          <ConnectorPoint PointX="2.9218775" PointY="5.4300439453125" />
-          <ConnectorPoint PointX="4.166666666666667" PointY="5.4300439453124989" />
-          <ConnectorPoint PointX="4.333333333333333" PointY="5.4300439453125" />
-          <ConnectorPoint PointX="6.916666666666667" PointY="5.4300439453124989" />
-          <ConnectorPoint PointX="7.083333333333333" PointY="5.4300439453125" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="5.4300439453124989" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="5.4300439453125" />
-          <ConnectorPoint PointX="10.416666666666666" PointY="5.4300439453124989" />
-          <ConnectorPoint PointX="10.583333333333334" PointY="5.4300439453125" />
-          <ConnectorPoint PointX="14.260416666666666" PointY="5.4300439453124989" />
-          <ConnectorPoint PointX="14.427083333333334" PointY="5.4300439453125" />
-          <ConnectorPoint PointX="15.875" PointY="5.4300439453125" />
+          <ConnectorPoint PointX="2.9218775" PointY="5.2112939453124989" />
+          <ConnectorPoint PointX="4.166666666666667" PointY="5.211293945312498" />
+          <ConnectorPoint PointX="4.333333333333333" PointY="5.2112939453124989" />
+          <ConnectorPoint PointX="4.5729186666666672" PointY="5.211293945312498" />
+          <ConnectorPoint PointX="4.7395853333333333" PointY="5.2112939453124989" />
+          <ConnectorPoint PointX="7.354166666666667" PointY="5.211293945312498" />
+          <ConnectorPoint PointX="7.520833333333333" PointY="5.2112939453124989" />
+          <ConnectorPoint PointX="9.3229166666666661" PointY="5.211293945312498" />
+          <ConnectorPoint PointX="9.4895833333333339" PointY="5.2112939453124989" />
+          <ConnectorPoint PointX="10.604166666666666" PointY="5.211293945312498" />
+          <ConnectorPoint PointX="10.770833333333334" PointY="5.2112939453124989" />
+          <ConnectorPoint PointX="14.260416666666666" PointY="5.211293945312498" />
+          <ConnectorPoint PointX="14.427083333333334" PointY="5.2112939453124989" />
+          <ConnectorPoint PointX="15.875" PointY="5.2112939453124989" />
         </AssociationConnector>
         <AssociationConnector Association="Layer2.LimitBreakerRoutine">
           <ConnectorPoint PointX="15.875" PointY="2.46875" />
@@ -1405,13 +1445,15 @@
           <ConnectorPoint PointX="14.427083333333334" PointY="4.1141907051282036" />
           <ConnectorPoint PointX="14.260416666666666" PointY="4.1141907051282045" />
           <ConnectorPoint PointX="14.25" PointY="4.1141907051282045" />
-          <ConnectorPoint PointX="14.25" PointY="5.172587890625" />
-          <ConnectorPoint PointX="10.583333333333334" PointY="5.1725878906249987" />
-          <ConnectorPoint PointX="10.416666666666666" PointY="5.172587890625" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="5.1725878906249987" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="5.172587890625" />
-          <ConnectorPoint PointX="7.406252" PointY="5.172587890625" />
-          <ConnectorPoint PointX="7.406252" PointY="4.3071907552083335" />
+          <ConnectorPoint PointX="14.25" PointY="5.110087890625" />
+          <ConnectorPoint PointX="10.770833333333334" PointY="5.1100878906249987" />
+          <ConnectorPoint PointX="10.604166666666666" PointY="5.110087890625" />
+          <ConnectorPoint PointX="9.4895833333333339" PointY="5.1100878906249987" />
+          <ConnectorPoint PointX="9.3229166666666661" PointY="5.110087890625" />
+          <ConnectorPoint PointX="7.520833333333333" PointY="5.1100878906249987" />
+          <ConnectorPoint PointX="7.354166666666667" PointY="5.110087890625" />
+          <ConnectorPoint PointX="7" PointY="5.110087890625" />
+          <ConnectorPoint PointX="7" PointY="4.3071907552083335" />
         </AssociationConnector>
         <InheritanceConnector EntityType="Layer2.Exercise" ManuallyRouted="false">
           <ConnectorPoint PointX="3.5" PointY="1.8026432291666668" />
@@ -1426,7 +1468,7 @@
           <ConnectorPoint PointX="10.75" PointY="9.8939925130208337" />
         </InheritanceConnector>
         <InheritanceConnector EntityType="Layer2.EmailNotification">
-          <ConnectorPoint PointX="13.875" PointY="8.875" />
+          <ConnectorPoint PointX="13.875" PointY="8.8750000000000036" />
           <ConnectorPoint PointX="13.875" PointY="7.1533821614583335" />
         </InheritanceConnector>
         <AssociationConnector Association="Layer2.ExerciseLoggedExercise">
@@ -1441,6 +1483,18 @@
         <AssociationConnector Association="Layer2.MuscleGroupSuggestedExercise">
           <ConnectorPoint PointX="1.25" PointY="5.2879850260416656" />
           <ConnectorPoint PointX="1.25" PointY="6.25" />
+        </AssociationConnector>
+        <AssociationConnector Association="Layer2.ExerciseGoalExerciseBase">
+          <ConnectorPoint PointX="10.25" PointY="6.125" />
+          <ConnectorPoint PointX="9.875" PointY="5.75" />
+          <ConnectorPoint PointX="9.4895833333333339" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="9.3229166666666661" PointY="5.75" />
+          <ConnectorPoint PointX="7.520833333333333" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="7.354166666666667" PointY="5.75" />
+          <ConnectorPoint PointX="5.302083333333333" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="5.135416666666667" PointY="5.75" />
+          <ConnectorPoint PointX="4.656252" PointY="5.75" />
+          <ConnectorPoint PointX="4.656252" PointY="4.451396484375" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
