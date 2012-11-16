@@ -697,7 +697,7 @@
           <Property Type="Boolean" Name="distance" Nullable="false" />
           <Property Type="Boolean" Name="time" Nullable="false" />
           <Property Type="Boolean" Name="enabled" Nullable="false" />
-          <NavigationProperty Name="ScheduledExercise" Relationship="Layer2.ScheduledExerciseExercise" FromRole="Exercise" ToRole="ScheduledExercise" />
+          <NavigationProperty Name="ScheduledExercises" Relationship="Layer2.ScheduledExerciseExercise" FromRole="Exercise" ToRole="ScheduledExercise" />
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="LoggedExercise" Relationship="Layer2.ExerciseLoggedExercise" FromRole="Exercise" ToRole="LoggedExercise" />
           <NavigationProperty Name="MuscleGroups" Relationship="Layer2.MuscleGroupExercise" FromRole="Exercise" ToRole="MuscleGroup" />
@@ -743,7 +743,7 @@
           <End Type="Layer2.SetAttributes" Role="SetAttributes" Multiplicity="*" />
         </Association>
         <Association Name="ScheduledExerciseExercise">
-          <End Type="Layer2.ScheduledExercise" Role="ScheduledExercise" Multiplicity="1" />
+          <End Type="Layer2.ScheduledExercise" Role="ScheduledExercise" Multiplicity="*" />
           <End Type="Layer2.ExerciseBase" Role="Exercise" Multiplicity="1" />
         </Association>
         <EntityType Name="ExerciseGoal">
@@ -767,7 +767,7 @@
           <Property Type="DateTime" Name="last_modified" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" />
           <NavigationProperty Name="ExerciseGoals" Relationship="Layer2.RoutineExerciseGoal" FromRole="Routine" ToRole="ExerciseGoal" />
-          <NavigationProperty Name="ScheduledRoutine" Relationship="Layer2.ScheduledRoutineRoutine" FromRole="Routine" ToRole="ScheduledRoutine" />
+          <NavigationProperty Name="ScheduledRoutines" Relationship="Layer2.ScheduledRoutineRoutine" FromRole="Routine" ToRole="ScheduledRoutine" />
           <NavigationProperty Name="LimitBreaker" Relationship="Layer2.LimitBreakerRoutine" FromRole="Routine" ToRole="LimitBreaker" />
           <NavigationProperty Name="LoggedExercises" Relationship="Layer2.LoggedExerciseRoutine" FromRole="Routine" ToRole="LoggedExercise" />
         </EntityType>
@@ -787,7 +787,7 @@
           <NavigationProperty Name="LimitBreaker" Relationship="Layer2.LimitBreakerScheduledRoutine" FromRole="ScheduledRoutine" ToRole="LimitBreaker" />
         </EntityType>
         <Association Name="ScheduledRoutineRoutine">
-          <End Type="Layer2.ScheduledRoutine" Role="ScheduledRoutine" Multiplicity="1" />
+          <End Type="Layer2.ScheduledRoutine" Role="ScheduledRoutine" Multiplicity="*" />
           <End Type="Layer2.Routine" Role="Routine" Multiplicity="1" />
         </Association>
         <EntityType Name="Exercise" BaseType="Layer2.ExerciseBase">

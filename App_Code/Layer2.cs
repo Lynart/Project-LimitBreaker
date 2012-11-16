@@ -173,20 +173,37 @@ public partial class ExerciseBase
     #endregion
     #region Navigation Properties
 
-    public virtual ScheduledExercise ScheduledExercise
+    public virtual ICollection<ScheduledExercise> ScheduledExercises
     {
-        get { return _scheduledExercise; }
+        get
+        {
+            if (_scheduledExercises == null)
+            {
+                var newCollection = new FixupCollection<ScheduledExercise>();
+                newCollection.CollectionChanged += FixupScheduledExercises;
+                _scheduledExercises = newCollection;
+            }
+            return _scheduledExercises;
+        }
         set
         {
-            if (!ReferenceEquals(_scheduledExercise, value))
+            if (!ReferenceEquals(_scheduledExercises, value))
             {
-                var previousValue = _scheduledExercise;
-                _scheduledExercise = value;
-                FixupScheduledExercise(previousValue);
+                var previousValue = _scheduledExercises as FixupCollection<ScheduledExercise>;
+                if (previousValue != null)
+                {
+                    previousValue.CollectionChanged -= FixupScheduledExercises;
+                }
+                _scheduledExercises = value;
+                var newValue = value as FixupCollection<ScheduledExercise>;
+                if (newValue != null)
+                {
+                    newValue.CollectionChanged += FixupScheduledExercises;
+                }
             }
         }
     }
-    private ScheduledExercise _scheduledExercise;
+    private ICollection<ScheduledExercise> _scheduledExercises;
 
     public virtual ICollection<LoggedExercise> LoggedExercise
     {
@@ -255,16 +272,25 @@ public partial class ExerciseBase
     #endregion
     #region Association Fixup
 
-    private void FixupScheduledExercise(ScheduledExercise previousValue)
+    private void FixupScheduledExercises(object sender, NotifyCollectionChangedEventArgs e)
     {
-        if (previousValue != null && ReferenceEquals(previousValue.ExerciseBase, this))
+        if (e.NewItems != null)
         {
-            previousValue.ExerciseBase = null;
+            foreach (ScheduledExercise item in e.NewItems)
+            {
+                item.ExerciseBase = this;
+            }
         }
 
-        if (ScheduledExercise != null)
+        if (e.OldItems != null)
         {
-            ScheduledExercise.ExerciseBase = this;
+            foreach (ScheduledExercise item in e.OldItems)
+            {
+                if (ReferenceEquals(item.ExerciseBase, this))
+                {
+                    item.ExerciseBase = null;
+                }
+            }
         }
     }
 
@@ -1205,20 +1231,37 @@ public partial class Routine
     }
     private ICollection<ExerciseGoal> _exerciseGoals;
 
-    public virtual ScheduledRoutine ScheduledRoutine
+    public virtual ICollection<ScheduledRoutine> ScheduledRoutines
     {
-        get { return _scheduledRoutine; }
+        get
+        {
+            if (_scheduledRoutines == null)
+            {
+                var newCollection = new FixupCollection<ScheduledRoutine>();
+                newCollection.CollectionChanged += FixupScheduledRoutines;
+                _scheduledRoutines = newCollection;
+            }
+            return _scheduledRoutines;
+        }
         set
         {
-            if (!ReferenceEquals(_scheduledRoutine, value))
+            if (!ReferenceEquals(_scheduledRoutines, value))
             {
-                var previousValue = _scheduledRoutine;
-                _scheduledRoutine = value;
-                FixupScheduledRoutine(previousValue);
+                var previousValue = _scheduledRoutines as FixupCollection<ScheduledRoutine>;
+                if (previousValue != null)
+                {
+                    previousValue.CollectionChanged -= FixupScheduledRoutines;
+                }
+                _scheduledRoutines = value;
+                var newValue = value as FixupCollection<ScheduledRoutine>;
+                if (newValue != null)
+                {
+                    newValue.CollectionChanged += FixupScheduledRoutines;
+                }
             }
         }
     }
-    private ScheduledRoutine _scheduledRoutine;
+    private ICollection<ScheduledRoutine> _scheduledRoutines;
 
     public virtual LimitBreaker LimitBreaker
     {
@@ -1270,19 +1313,6 @@ public partial class Routine
     #endregion
     #region Association Fixup
 
-    private void FixupScheduledRoutine(ScheduledRoutine previousValue)
-    {
-        if (previousValue != null && ReferenceEquals(previousValue.Routine, this))
-        {
-            previousValue.Routine = null;
-        }
-
-        if (ScheduledRoutine != null)
-        {
-            ScheduledRoutine.Routine = this;
-        }
-    }
-
     private void FixupLimitBreaker(LimitBreaker previousValue)
     {
         if (previousValue != null && previousValue.Routines.Contains(this))
@@ -1312,6 +1342,28 @@ public partial class Routine
         if (e.OldItems != null)
         {
             foreach (ExerciseGoal item in e.OldItems)
+            {
+                if (ReferenceEquals(item.Routine, this))
+                {
+                    item.Routine = null;
+                }
+            }
+        }
+    }
+
+    private void FixupScheduledRoutines(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems != null)
+        {
+            foreach (ScheduledRoutine item in e.NewItems)
+            {
+                item.Routine = this;
+            }
+        }
+
+        if (e.OldItems != null)
+        {
+            foreach (ScheduledRoutine item in e.OldItems)
             {
                 if (ReferenceEquals(item.Routine, this))
                 {
@@ -1420,14 +1472,17 @@ public partial class ScheduledExercise
 
     private void FixupExerciseBase(ExerciseBase previousValue)
     {
-        if (previousValue != null && ReferenceEquals(previousValue.ScheduledExercise, this))
+        if (previousValue != null && previousValue.ScheduledExercises.Contains(this))
         {
-            previousValue.ScheduledExercise = null;
+            previousValue.ScheduledExercises.Remove(this);
         }
 
         if (ExerciseBase != null)
         {
-            ExerciseBase.ScheduledExercise = this;
+            if (!ExerciseBase.ScheduledExercises.Contains(this))
+            {
+                ExerciseBase.ScheduledExercises.Add(this);
+            }
         }
     }
 
@@ -1611,14 +1666,17 @@ public partial class ScheduledRoutine
 
     private void FixupRoutine(Routine previousValue)
     {
-        if (previousValue != null && ReferenceEquals(previousValue.ScheduledRoutine, this))
+        if (previousValue != null && previousValue.ScheduledRoutines.Contains(this))
         {
-            previousValue.ScheduledRoutine = null;
+            previousValue.ScheduledRoutines.Remove(this);
         }
 
         if (Routine != null)
         {
-            Routine.ScheduledRoutine = this;
+            if (!Routine.ScheduledRoutines.Contains(this))
+            {
+                Routine.ScheduledRoutines.Add(this);
+            }
         }
     }
 
