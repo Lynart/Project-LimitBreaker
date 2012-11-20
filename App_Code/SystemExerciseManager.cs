@@ -8,12 +8,13 @@ using System.Web;
 /// <summary>
 /// Summary description for Layer2Manager
 /// </summary>
-public class Layer2Manager
+public class SystemExerciseManager
 {
     System.Web.HttpApplication _context;
 
-    public Layer2Manager()
+    public SystemExerciseManager()
     {
+        //Reference to curent application instance
         _context = System.Web.HttpContext.Current.ApplicationInstance;
     }
 
@@ -48,5 +49,13 @@ public class Layer2Manager
             return rc;
         }
     }
-
+    /*
+    public List<ExerciseBase> getExercisesByName(string exerciseName)
+    {
+        using (var context = new Layer2Container())
+        {
+            con
+        }
+    }
+     */
 }
