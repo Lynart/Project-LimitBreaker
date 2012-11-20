@@ -1,21 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/ui/mp/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" 
-            SelectMethod="getAllExercises" TypeName="Layer2Manager"></asp:ObjectDataSource>
-        <asp:DropDownList ID="ddlExercises" runat="server" 
-            onselectedindexchanged="ddlExercises_SelectedIndexChanged" 
-            DataSourceID="ObjectDataSource1" DataTextField="name" DataValueField="id">
-        </asp:DropDownList>
-    </div>
-    </form>
-</body>
-</html>
+</asp:Content>
+
