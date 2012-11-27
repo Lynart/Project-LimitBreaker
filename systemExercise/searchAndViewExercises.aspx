@@ -51,6 +51,8 @@
                     Exercise Video</td>
                 <td>
                     Exercise Attributes</td>
+                <td>
+                    Enabled</td>
             </tr>
             <tr>
                 <td>
@@ -64,6 +66,9 @@
                 </td>
                 <td>
                     <asp:Label ID="exerciseAttributes" runat="server" Visible="False"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label ID="exerciseEnabled" runat="server" Visible="False"></asp:Label>
                 </td>
             </tr>
         </table>

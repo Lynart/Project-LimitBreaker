@@ -87,7 +87,7 @@ public class SystemExerciseManager
         {
             //context.ContextOptions.LazyLoadingEnabled = false;
             var query = (from exercise in context.Exercises
-                         where exercise.name.Contains(exerciseName) && exercise.enabled
+                         where exercise.name.Contains(exerciseName)
                          select exercise);
 
 
@@ -102,7 +102,7 @@ public class SystemExerciseManager
         {
             //context.ContextOptions.LazyLoadingEnabled = false;
             var query = (from exercise in context.Exercises
-                         where exercise.muscleGroups.Contains(muscleGroup) && exercise.enabled
+                         where exercise.muscleGroups.Contains(muscleGroup)
                          select exercise);
 
 
