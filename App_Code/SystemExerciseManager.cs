@@ -49,13 +49,42 @@ public class SystemExerciseManager
             return rc;
         }
     }
-    /*
-    public List<ExerciseBase> getExercisesByName(string exerciseName)
+
+    public List<Exercise> getExercisesByName(string exerciseName)
     {
         using (var context = new Layer2Container())
         {
-            con
+            //context.ContextOptions.LazyLoadingEnabled = false;
+            var query = (from exercise in context.Exercises
+                         where exercise.name.Contains(exerciseName) && exercise.enabled
+                         select exercise);
+
+
+            //context.LoadProperty(query, "MuscleGroups");
+            return query.OrderBy(exercise => exercise.name).ToList();
         }
     }
-     */
+
+    public List<Exercise> getExercisesByMuscleGroup(string muscleGroup)
+    {
+        using (var context = new Layer2Container())
+        {
+            //context.ContextOptions.LazyLoadingEnabled = false;
+            var query = (from exercise in context.Exercises
+                         where exercise.muscleGroups.Contains(muscleGroup) && exercise.enabled
+                         select exercise);
+
+
+            //context.LoadProperty(query, "MuscleGroups");
+            return query.OrderBy(exercise => exercise.name).ToList();
+        }
+    }
+
+    public Exercise getExercise(string exerciseName)
+    {
+        using (var context = new Layer2Container())
+        {
+            return context.Exercises.FirstOrDefault(exercise => exercise.name == exerciseName);
+        }
+    }
 }
