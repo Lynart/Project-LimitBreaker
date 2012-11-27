@@ -12,11 +12,10 @@
     left: 20%;
     margin: auto auto 0px auto;
     padding: 15px;
-    height: 880px;
+
     width: 59%;
     vertical-align: middle;
     font-size: 28px;
-    font-style: oblique;
     text-align: center;
     border-top-left-radius: 50px 50px;
     border-top-right-radius: 50px 50px;
@@ -36,6 +35,11 @@
     color: #FFFFFF;
 
     text-align: center;
+}
+
+#content
+{
+    text-align: left;
 }
 
 .button
@@ -107,5 +111,34 @@ h3
 h4
 {
     text-align: left;
-    color: #333333;
+    color: #808080;
+}
+
+p
+{
+    font-size: medium;
+}
+
+#newExerciseForm
+{
+
+}
+newExerciseForm, tr
+{
+    width: 300px;
+}
+
+newExerciseForm, tr, td
+{
+    width: 200px;
+}
+
+.tbStyle
+{
+    width: 400px;
+}
+
+.cblStyle
+{
+    font-size: medium;
 }

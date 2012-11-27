@@ -50,6 +50,37 @@ public class SystemExerciseManager
         }
     }
 
+   public bool createNewExercise(string exerciseName, string muscleGroups, string equipment, string videoLink, bool rep, bool weight, bool distance, bool time, bool enabled)
+    {
+        bool rc = false;
+
+        using (var context = new Layer2Container())
+        {
+            Exercise newExercise = new Exercise();
+            try { 
+            if ((context.Exercises.FirstOrDefault(exercise => exercise.name == exerciseName).name == exerciseName))
+                rc = false;              
+            }
+            catch (NullReferenceException e)
+            {
+                newExercise.name = exerciseName;
+                newExercise.muscleGroups = muscleGroups;
+                newExercise.equipment = equipment;
+                newExercise.videoLink = videoLink;
+                newExercise.rep = rep;
+                newExercise.weight = weight;
+                newExercise.distance = distance;
+                newExercise.time = time;
+                newExercise.enabled = enabled;
+
+                context.Exercises.AddObject(newExercise);
+                context.SaveChanges();
+                rc = true;
+            }
+            return rc;
+        }
+    }
+
     public List<Exercise> getExercisesByName(string exerciseName)
     {
         using (var context = new Layer2Container())

@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/ui/mp/MasterPage.master" AutoEventWireup="true" CodeFile="default.aspx.cs" Inherits="Default" %>
-<%@ Register src="ucDeleteExercise.ascx" tagname="ucDeleteExercise" tagprefix="uc1" %>
+<%@ Register Src="~/ui/uc/AddNewExercise.ascx" TagName="addExercise" TagPrefix="uc1" %>
+<%@ Register src="~/ui/uc/ucDeleteExercise.ascx" tagname="ucDeleteExercise" tagprefix="uc2" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -7,10 +8,10 @@
     <div>
     <h3>Manage System Exercises</h3>
     <h4>Add system exercises</h4>
+    <uc1:addExercise ID="courses" runat="server" />
     <h4>Delete system exercise</h4>
-        <uc1:ucDeleteExercise ID="ucDeleteExercise" runat="server" />
+    <uc2:ucDeleteExercise ID="ucDeleteExercise" runat="server" />
     <h4>Disable system exercise</h4>
-    <h4>Modify system exercise</h4>
         <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" 
             SelectMethod="getAllExercises" TypeName="Layer2Manager"></asp:ObjectDataSource>
         <asp:DropDownList ID="ddlExercises" runat="server" 
