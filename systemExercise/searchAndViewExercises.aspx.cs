@@ -23,6 +23,7 @@ public partial class _Default : System.Web.UI.Page
             {
                 ExerciseDDL.Items.Add(name.name);
             }
+            exceriseNotFound.Visible = false;
             ExerciseDDL_SelectedIndexChanged(sender, e);
         }
         else
@@ -39,6 +40,7 @@ public partial class _Default : System.Web.UI.Page
             {
                 ExerciseDDL.Items.Add(name.name);
             }
+            exceriseNotFound.Visible = false;
             ExerciseDDL_SelectedIndexChanged(sender, e);
         }
         else
@@ -73,5 +75,6 @@ public partial class _Default : System.Web.UI.Page
         exerciseVideo.Visible = false;
         exerciseAttributes.Visible = false;
         exerciseEnabled.Visible = false;
+        exceriseNotFound.Visible = true;
     }
 }

@@ -42,6 +42,8 @@
         <asp:DropDownList ID="ExerciseDDL" runat="server" AutoPostBack="True" 
             onselectedindexchanged="ExerciseDDL_SelectedIndexChanged">
         </asp:DropDownList>
+        <asp:Label ID="exceriseNotFound" runat="server" ForeColor="Red" 
+            Text="No exercise found" Visible="False"></asp:Label>
         <br />
         <table class="style1">
             <tr>
