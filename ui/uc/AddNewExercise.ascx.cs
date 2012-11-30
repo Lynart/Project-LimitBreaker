@@ -28,7 +28,7 @@ public partial class ui_uc_AddNewExercise : System.Web.UI.UserControl
             distance = true;
         if (cblAttributes.Items[3].Selected)
             time = true;
-        if (cblAttributes.Items[4].Selected)
+        if (cbEnabled.Enabled)
             enabled = true;
 
         foreach (ListItem item in cblMuscleGroups.Items)
@@ -37,8 +37,8 @@ public partial class ui_uc_AddNewExercise : System.Web.UI.UserControl
                 muscleGroups += item.Text + System.Environment.NewLine;
         }
 
-        if (manager.createNewExercise(tbExerciseName.Text, muscleGroups, tbEquipment.Text, tbVideoLink.Text, rep, wieght, distance, time, enabled) && tbExerciseName.Text != ""){
-            lblResult.ForeColor = System.Drawing.Color.Green;
+        if (manager.createNewExercise(tbExerciseName.Text, muscleGroups, tbEquipment.Text, tbVideoLink.Text, rep, wieght, distance, time, enabled) && tbExerciseName.Text != ""){  
+            lblResult.ForeColor = System.Drawing.Color.Green;       
             lblResult.Text = "Added Succesfully!";
         }
         else
