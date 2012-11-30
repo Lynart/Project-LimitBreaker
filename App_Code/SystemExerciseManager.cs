@@ -50,6 +50,67 @@ public class SystemExerciseManager
         }
     }
 
+    public Int32 getExerciseID(String name)
+    {
+        using (var context = new Layer2Container())
+        {
+            return context.Exercises.Where(x => x.name == name).Select(x => x.id).FirstOrDefault();
+        }
+    }
+
+    public Exercise getExerciseInfo(Int32 id)
+    {
+        using (var context = new Layer2Container())
+        {
+            return context.Exercises.Where(x => x.id == id).FirstOrDefault();
+        }
+    }
+
+    public String[] splitMuscleGroups(String muscleGroups)
+    {
+        String[] rc = new String[0];
+
+        rc = muscleGroups.Split(null);
+
+        for (int i = 0; i < rc.Length; i++)
+            rc[i] = rc[i].Trim();
+
+        return rc;
+    }
+
+    public Boolean modifyExercise(Int32 id, string exerciseName, string muscleGroups, string equipment, string videoLink, bool rep, bool weight, bool distance, bool time, bool enabled)
+    {
+        Boolean rc = false;
+        Exercise exercise = null;
+
+        using (var context = new Layer2Container())
+        {
+            exercise = context.Exercises.Where(x => x.id == id).FirstOrDefault();      
+            
+            try
+            {
+                exercise.name = exerciseName.Trim();
+                exercise.equipment = equipment.Trim();
+                exercise.videoLink = videoLink.Trim();
+                exercise.rep = rep;
+                exercise.weight = weight;
+                exercise.distance = distance;
+                exercise.time = time;
+                exercise.enabled = enabled;
+                exercise.muscleGroups = muscleGroups;
+                context.Exercises.ApplyCurrentValues(exercise);
+                context.SaveChanges();
+                rc = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        return rc;
+    }
+
    public bool createNewExercise(string exerciseName, string muscleGroups, string equipment, string videoLink, bool rep, bool weight, bool distance, bool time, bool enabled)
     {
         bool rc = false;
