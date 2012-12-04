@@ -85,21 +85,28 @@ public class SystemExerciseManager
 
         using (var context = new Layer2Container())
         {
-            exercise = context.Exercises.Where(x => x.id == id).FirstOrDefault();      
-            
+            exercise = context.Exercises.Where(x => x.id == id).FirstOrDefault();
+
             try
             {
-                exercise.name = exerciseName.Trim();
-                exercise.equipment = equipment.Trim();
-                exercise.videoLink = videoLink.Trim();
-                exercise.rep = rep;
-                exercise.weight = weight;
-                exercise.distance = distance;
-                exercise.time = time;
-                exercise.muscleGroups = muscleGroups;
-                context.Exercises.ApplyCurrentValues(exercise);
-                context.SaveChanges();
-                rc = true;
+                if ((context.Exercises.FirstOrDefault(e => e.name == exerciseName).name == exerciseName && exerciseName != exercise.name))
+                {
+                    rc = false;
+                }
+                else
+                {
+                    exercise.name = exerciseName.Trim();
+                    exercise.equipment = equipment.Trim();
+                    exercise.videoLink = videoLink.Trim();
+                    exercise.rep = rep;
+                    exercise.weight = weight;
+                    exercise.distance = distance;
+                    exercise.time = time;
+                    exercise.muscleGroups = muscleGroups;
+                    context.Exercises.ApplyCurrentValues(exercise);
+                    context.SaveChanges();
+                    rc = true;
+                }
             }
             catch (Exception ex)
             {
@@ -110,16 +117,17 @@ public class SystemExerciseManager
         return rc;
     }
 
-   public bool createNewExercise(string exerciseName, string muscleGroups, string equipment, string videoLink, bool rep, bool weight, bool distance, bool time, bool enabled)
+    public bool createNewExercise(string exerciseName, string muscleGroups, string equipment, string videoLink, bool rep, bool weight, bool distance, bool time, bool enabled)
     {
         bool rc = false;
 
         using (var context = new Layer2Container())
         {
             Exercise newExercise = new Exercise();
-            try { 
-            if ((context.Exercises.FirstOrDefault(exercise => exercise.name == exerciseName).name == exerciseName))
-                rc = false;              
+            try
+            {
+                if ((context.Exercises.FirstOrDefault(exercise => exercise.name == exerciseName).name == exerciseName))
+                    rc = false;
             }
             catch (NullReferenceException e)
             {

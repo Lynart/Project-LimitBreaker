@@ -19,7 +19,7 @@
         height: 54px;
     }
 </style>
-<script>
+<script type="text/javascript">
     function ValidateModuleList(source, args) {
         var chkListModules = document.getElementById('<%= cblMuscleGroups.ClientID%>');
         var chkListinputs = chkListModules.getElementsByTagName("input");
@@ -112,9 +112,10 @@
             </td>
             <td class="style1">
                 <asp:TextBox ID="tbEquipment" runat="server" Height="144px" CssClass="tbStyle" TextMode="MultiLine"></asp:TextBox>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="tbEquipment"
-                    ErrorMessage="*Please enter alphanumeric characters for equipment" ValidationExpression="^[0-9a-zA-Z ]+$"
-                    ForeColor="Red" ValidationGroup="AddExercise"></asp:RegularExpressionValidator>
+                <br />
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                    ControlToValidate="tbEquipment" ErrorMessage="*Please enter required equipment" 
+                    ValidationGroup="AddExercise"></asp:RequiredFieldValidator>
             </td>
         </tr>
         <tr>
