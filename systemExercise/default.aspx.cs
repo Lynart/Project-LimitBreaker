@@ -13,12 +13,11 @@ public partial class _Default : System.Web.UI.Page
     {
         exerciseAutoComplete.SourceList = manager.getExerciseNamesAC();
         rblEnaber.Visible = false;
-        ExerciseDDL.Visible = false;
         Panel1.Visible = false;
     }
     protected void exerciseSearchButton_Click(object sender, EventArgs e)
     {
-        populateForm();
+        lblResult.Text = "";
         List<Exercise> foundExercises = manager.getExercisesByName(exerciseSearchBox.Text.Trim());
         ExerciseDDL.Items.Clear();
         if (foundExercises.Count != 0)
@@ -41,10 +40,10 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void MuscleGroupRBL_SelectedIndexChanged(object sender, EventArgs e)
     {
+        lblResult.Text = "";
         List<Exercise> foundExercises = manager.getExercisesByMuscleGroup(MuscleGroupRBL.SelectedValue.Trim());
         ExerciseDDL.Items.Clear();
         exerciseSearchBox.Text="";
-        populateForm();
         if (foundExercises.Count != 0)
         {
             foreach (Exercise name in foundExercises)
@@ -78,11 +77,11 @@ public partial class _Default : System.Web.UI.Page
             exerciseAttributes.Text += "Distance\n";
         exerciseEnabled.Visible = true;
         exerciseEnabled.Text = exercise.enabled.ToString();
+        populateForm();
     }
     protected void rblEnaber_SelectedIndexChanged(object sender, EventArgs e)
     {
         disableManager enabler = new disableManager();
-
         try
         {
             if (Convert.ToInt32(rblEnaber.SelectedValue) == 1)
@@ -99,8 +98,7 @@ public partial class _Default : System.Web.UI.Page
 
             populateForm();
         }
-
-        catch (Exception exc)
+        catch (Exception)
         {
 
         }
@@ -130,11 +128,9 @@ public partial class _Default : System.Web.UI.Page
 
     protected void populateForm()
     {
-        Exercise foundExercise = manager.getExerciseInfo(manager.getExerciseID(exerciseSearchBox.Text.Trim()));
+        Exercise foundExercise = manager.getExerciseInfo(manager.getExerciseID(ExerciseDDL.SelectedValue));
         String[] muscleGroups;
         initBoxes();
-
-        
 
         if (foundExercise != null)
         {
@@ -185,9 +181,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnConfirmChanges_Click(object sender, EventArgs e)
     {
-        bool rep = false, wieght = false, time = false, distance = false, enabled = false;
+        bool rep = false, wieght = false, time = false, distance = false;
         string muscleGroups = "";
-
 
         if (cblAttributes.Items[0].Selected)
             rep = true;
@@ -198,14 +193,13 @@ public partial class _Default : System.Web.UI.Page
         if (cblAttributes.Items[3].Selected)
             time = true;
 
-
         foreach (ListItem item in cblMuscleGroups.Items)
         {
             if (item.Selected)
                 muscleGroups += item.Text + System.Environment.NewLine;
         }
 
-        if (manager.modifyExercise(manager.getExerciseID(exerciseSearchBox.Text.Trim()), tbExerciseName.Text, muscleGroups, tbEquipment.Text, tbVideoLink.Text, rep, wieght, distance, time) && tbExerciseName.Text != "")
+        if (manager.modifyExercise(manager.getExerciseID(ExerciseDDL.SelectedValue), tbExerciseName.Text, muscleGroups, tbEquipment.Text, tbVideoLink.Text, rep, wieght, distance, time) && tbExerciseName.Text != "")
         {
             lblResult.ForeColor = System.Drawing.Color.Green;
             lblResult.Text = "Modified Succesfully!";
@@ -213,7 +207,7 @@ public partial class _Default : System.Web.UI.Page
         else
         {
             lblResult.ForeColor = System.Drawing.Color.Red;
-            lblResult.Text = "Something went wrong";
+            lblResult.Text = "Exercise name already exists";
         }
 
         if (tbExerciseName.Text == "")
@@ -221,7 +215,6 @@ public partial class _Default : System.Web.UI.Page
             lblResult.ForeColor = System.Drawing.Color.Orange;
             lblResult.Text = "Please enter an exercise name";
         }
-
 
         populateForm();
     }
@@ -245,7 +238,7 @@ public partial class _Default : System.Web.UI.Page
             }
         }
 
-        catch (Exception exc)
+        catch (Exception)
         {
             lblDeletionResult.Text = "Something went wrong with the execution of the page";
         }

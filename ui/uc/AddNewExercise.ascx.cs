@@ -10,15 +10,13 @@ public partial class ui_uc_AddNewExercise : System.Web.UI.UserControl
     SystemExerciseManager manager;
     protected void Page_Load(object sender, EventArgs e)
     {
-        manager = new SystemExerciseManager();
-       
+        manager = new SystemExerciseManager();     
     }
     protected void btnCreateExercise_Click(object sender, EventArgs e)
     {
-
+        lblResult.Text = "";
         bool rep = false, wieght = false, time = false, distance = false, enabled = false;
         string muscleGroups = "";
-
 
         if (cblAttributes.Items[0].Selected)
             rep = true;
@@ -51,7 +49,6 @@ public partial class ui_uc_AddNewExercise : System.Web.UI.UserControl
             lblResult.ForeColor = System.Drawing.Color.Orange;
             lblResult.Text = "Please enter an exercise name";
         }
-
 
         tbExerciseName.Text = "";
         tbEquipment.Text = "";
