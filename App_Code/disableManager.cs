@@ -45,6 +45,28 @@ public class disableManager
         }
     }
 
+    public bool disableExerciseByName(string name)
+    {
+        bool result = true;
+
+        using (var context = new Layer2Container())
+        {
+            try
+            {
+                Exercise exercise = context.Exercises.Where(s => s.name == name).FirstOrDefault();
+                exercise.enabled = false;
+                context.SaveChanges();
+            }
+
+            catch (Exception e)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+    }
+
     public bool enableExerciseById(int id)
     {
         bool result = true;
@@ -54,6 +76,28 @@ public class disableManager
             try
             {
                 Exercise exercise = context.Exercises.Where(s => s.id == id).FirstOrDefault();
+                exercise.enabled = true;
+                context.SaveChanges();
+            }
+
+            catch (Exception e)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+    }
+
+    public bool enableExerciseByName(string name)
+    {
+        bool result = true;
+
+        using (var context = new Layer2Container())
+        {
+            try
+            {
+                Exercise exercise = context.Exercises.Where(s => s.name == name).FirstOrDefault();
                 exercise.enabled = true;
                 context.SaveChanges();
             }

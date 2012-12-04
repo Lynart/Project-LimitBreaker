@@ -51,4 +51,33 @@ public class ExerciseManager
 
         return result;
     }
+
+    public bool deleteExerciseByName(string name)
+    {
+        bool result = true;
+        using (var context = new Layer2Container())
+        {
+            try
+            {
+                var exercise = context.Exercises.Where(s => s.name == name).FirstOrDefault();
+
+                //var exp = context.ExerciseExps.Where(s => s.Exercise.id == id).FirstOrDefault(); // Make it so it only works when there is a related ExerciseExp
+                //context.ExerciseExps.DeleteObject(exp);
+
+                exercise.LoggedExercise.Clear();
+                exercise.ScheduledExercises.Clear();
+                //ExerciseGoal doesn't have a navigation property
+
+                context.Exercises.DeleteObject(exercise);
+                context.SaveChanges();
+            }
+
+            catch (Exception e)
+            {
+                result = false;
+            }
+        }
+
+        return result;
+    }
 }

@@ -30,6 +30,8 @@
                 Enabled="False" />
             <asp:Button ID="Button8" runat="server" Text="Manage Expereince Points" CssClass="button"
                 Enabled="False" />
+            <br />
+
         </div>
         <div id = "content">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

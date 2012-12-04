@@ -78,7 +78,7 @@ public class SystemExerciseManager
         return rc;
     }
 
-    public Boolean modifyExercise(Int32 id, string exerciseName, string muscleGroups, string equipment, string videoLink, bool rep, bool weight, bool distance, bool time, bool enabled)
+    public Boolean modifyExercise(Int32 id, string exerciseName, string muscleGroups, string equipment, string videoLink, bool rep, bool weight, bool distance, bool time)
     {
         Boolean rc = false;
         Exercise exercise = null;
@@ -96,7 +96,6 @@ public class SystemExerciseManager
                 exercise.weight = weight;
                 exercise.distance = distance;
                 exercise.time = time;
-                exercise.enabled = enabled;
                 exercise.muscleGroups = muscleGroups;
                 context.Exercises.ApplyCurrentValues(exercise);
                 context.SaveChanges();
