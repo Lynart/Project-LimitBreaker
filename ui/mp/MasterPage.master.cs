@@ -11,12 +11,12 @@ public partial class ui_mp_MasterPage : System.Web.UI.MasterPage
     {
         Page.MaintainScrollPositionOnPostBack = true;
     }
-    protected void btn(object sender, EventArgs e)
-    {
-
-    }
     protected void btnManageSysExercise_Click(object sender, EventArgs e)
     {
         Response.Redirect("~/systemExercise/default.aspx");
+    }
+    protected void btnManageUserRoutines_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/userRoutines/default.aspx");
     }
 }

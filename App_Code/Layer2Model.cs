@@ -41,6 +41,7 @@ public partial class EmailNotification : Notification
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual LimitBreaker LimitBreaker
@@ -59,6 +60,7 @@ public partial class EmailNotification : Notification
     private LimitBreaker _limitBreaker;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupLimitBreaker(LimitBreaker previousValue)
@@ -75,6 +77,7 @@ public partial class EmailNotification : Notification
     }
 
     #endregion
+
 }
 public partial class Exercise
 {
@@ -141,6 +144,7 @@ public partial class Exercise
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual ICollection<ScheduledExercise> ScheduledExercises
@@ -223,6 +227,7 @@ public partial class Exercise
     private ExerciseExp _exerciseExp;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupExerciseExp(ExerciseExp previousValue)
@@ -283,6 +288,7 @@ public partial class Exercise
     }
 
     #endregion
+
 }
 public partial class ExerciseExp
 {
@@ -325,6 +331,7 @@ public partial class ExerciseExp
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual Exercise Exercise
@@ -343,6 +350,7 @@ public partial class ExerciseExp
     private Exercise _exercise;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupExercise(Exercise previousValue)
@@ -359,6 +367,7 @@ public partial class ExerciseExp
     }
 
     #endregion
+
 }
 public partial class ExerciseGoal
 {
@@ -371,6 +380,7 @@ public partial class ExerciseGoal
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual Routine Routine
@@ -410,6 +420,7 @@ public partial class ExerciseGoal
     private SetAttributes _setAttribute;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupRoutine(Routine previousValue)
@@ -442,6 +453,7 @@ public partial class ExerciseGoal
     }
 
     #endregion
+
 }
 public partial class ExperienceAtrophy
 {
@@ -466,6 +478,7 @@ public partial class ExperienceAtrophy
     }
 
     #endregion
+
 }
 public partial class LevelFormula
 {
@@ -496,6 +509,7 @@ public partial class LevelFormula
     }
 
     #endregion
+
 }
 public partial class LimitBreaker
 {
@@ -562,6 +576,7 @@ public partial class LimitBreaker
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual ICollection<ScheduledExercise> ScheduledExercise
@@ -723,6 +738,7 @@ public partial class LimitBreaker
     private ICollection<LoggedExercise> _loggedExercises;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupEmailNotifications(EmailNotification previousValue)
@@ -840,6 +856,7 @@ public partial class LimitBreaker
     }
 
     #endregion
+
 }
 public partial class LoggedExercise
 {
@@ -870,6 +887,7 @@ public partial class LoggedExercise
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual ICollection<SetAttributes> SetAttributes
@@ -950,6 +968,7 @@ public partial class LoggedExercise
     private Exercise _exerciseBase;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupLimitBreaker(LimitBreaker previousValue)
@@ -1023,6 +1042,7 @@ public partial class LoggedExercise
     }
 
     #endregion
+
 }
 public partial class Notification
 {
@@ -1053,6 +1073,7 @@ public partial class Notification
     }
 
     #endregion
+
 }
 public partial class Routine
 {
@@ -1077,6 +1098,7 @@ public partial class Routine
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual ICollection<ExerciseGoal> ExerciseGoals
@@ -1191,6 +1213,7 @@ public partial class Routine
     private ICollection<LoggedExercise> _loggedExercises;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupLimitBreaker(LimitBreaker previousValue)
@@ -1276,6 +1299,7 @@ public partial class Routine
     }
 
     #endregion
+
 }
 public partial class ScheduledExercise
 {
@@ -1300,6 +1324,7 @@ public partial class ScheduledExercise
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual Exercise ExerciseBase
@@ -1348,6 +1373,7 @@ public partial class ScheduledExercise
     private LimitBreaker _limitBreakers;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupExerciseBase(Exercise previousValue)
@@ -1396,6 +1422,7 @@ public partial class ScheduledExercise
     }
 
     #endregion
+
 }
 public partial class ScheduledReminder : Notification
 {
@@ -1408,6 +1435,7 @@ public partial class ScheduledReminder : Notification
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual ScheduledExercise ScheduledExercise
@@ -1441,6 +1469,7 @@ public partial class ScheduledReminder : Notification
     private ScheduledRoutine _scheduledRoutine;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupScheduledExercise(ScheduledExercise previousValue)
@@ -1470,6 +1499,7 @@ public partial class ScheduledReminder : Notification
     }
 
     #endregion
+
 }
 public partial class ScheduledRoutine
 {
@@ -1494,6 +1524,7 @@ public partial class ScheduledRoutine
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual Routine Routine
@@ -1542,6 +1573,7 @@ public partial class ScheduledRoutine
     private LimitBreaker _limitBreaker;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupRoutine(Routine previousValue)
@@ -1590,6 +1622,7 @@ public partial class ScheduledRoutine
     }
 
     #endregion
+
 }
 public partial class SetAttributes
 {
@@ -1626,6 +1659,7 @@ public partial class SetAttributes
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual LoggedExercise LoggedExercise
@@ -1659,6 +1693,7 @@ public partial class SetAttributes
     private ExerciseGoal _exerciseGoal;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupLoggedExercise(LoggedExercise previousValue)
@@ -1691,6 +1726,7 @@ public partial class SetAttributes
     }
 
     #endregion
+
 }
 public partial class Statistics
 {
@@ -1745,6 +1781,7 @@ public partial class Statistics
     }
 
     #endregion
+
     #region Navigation Properties
 
     public virtual LimitBreaker LimitBreaker
@@ -1763,6 +1800,7 @@ public partial class Statistics
     private LimitBreaker _limitBreaker;
 
     #endregion
+
     #region Association Fixup
 
     private void FixupLimitBreaker(LimitBreaker previousValue)
@@ -1779,4 +1817,5 @@ public partial class Statistics
     }
 
     #endregion
+
 }
