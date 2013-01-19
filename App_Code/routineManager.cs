@@ -16,11 +16,22 @@ public class routineManager
     }
 
     // Return a list of routines
-    public ICollection<String> viewRoutines()
+    public ICollection<Routine> viewRoutines()
     {
         using (var context = new Layer2Container())
         {
-            ICollection<String> rc = context.Routines.Select(x => x.name).ToList();
+            ICollection<Routine> rc = context.Routines.ToList();
+
+            return rc;
+        }
+    }
+
+    // Return a single routine object based on routine ID parameter
+    public Routine getRoutine(int routineID)
+    {
+        using (var context = new Layer2Container())
+        {
+            Routine rc = context.Routines.Where(x => x.id == routineID).FirstOrDefault();
 
             return rc;
         }
@@ -47,8 +58,7 @@ public class routineManager
             }
             catch (NullReferenceException e)
             {
-
-
+                Console.WriteLine(e.Message + Environment.NewLine + e.StackTrace);
             }
 
             return rc;
