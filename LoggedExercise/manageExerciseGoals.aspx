@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/ui/mp/MasterPage.master" AutoEventWireup="true"
+﻿<%@ Page Title="Use Case 5.9" Language="C#" MasterPageFile="~/ui/mp/MasterPage.master" AutoEventWireup="true"
     CodeFile="manageExerciseGoals.aspx.cs" Inherits="User_manageExerciseGoals" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
@@ -22,6 +22,7 @@
     <div class="exerciseForm" style="min-height:670px;">
         <asp:UpdatePanel ID="UpdatePanel2" runat="server">
             <ContentTemplate>
+                <div class="useCase"><h3>Use Case 5.9</h3></div>
                 <asp:MultiView ID="exerciseGoalMultiView" runat="server">
                     <asp:View ID="addGoalView" runat="server">
                                        <h2 style="text-align:center;">Add Exercise Goals</h2>
@@ -121,6 +122,16 @@
                             Your Current Exercise Goals</h4>
                         <div style="float: left; padding: 10px;">
                             Order Goals By:
+                            <asp:DropDownList ID="muscleGroupDdl" runat="server" AutoPostBack="True" 
+                                onselectedindexchanged="muscleGroupDdl_SelectedIndexChanged">
+                                <asp:ListItem>All Groups</asp:ListItem>
+                                <asp:ListItem>Chest</asp:ListItem>
+                                <asp:ListItem>Back</asp:ListItem>
+                                <asp:ListItem>Shoulders</asp:ListItem>
+                                <asp:ListItem>Arms</asp:ListItem>
+                                <asp:ListItem>Legs</asp:ListItem>
+                                <asp:ListItem>Cardio</asp:ListItem>
+                            </asp:DropDownList>
                             <asp:RadioButtonList ID="orderByRbl" runat="server" AutoPostBack="True" Width="230"
                                 RepeatDirection="Horizontal" TextAlign="Left" OnSelectedIndexChanged="orderByRbl_SelectedIndexChanged">
                                 <asp:ListItem Selected="True" Value="0">Name</asp:ListItem>
@@ -283,7 +294,7 @@
                                     </tr>
                                     <tr>
                                         <td class="style1" colspan="2">
-                                            <asp:Button ID="saveModifyGoalBtn" runat="server" Text="Save" Visible="false" OnClick="saveModifyGoalBtn_Click"
+                                            <asp:Button ID="saveModifyGoalBtn" runat="server" Text="Save" Visible="false" OnClick="saveModifyGoalBtn_Click" CssClass="button"  Width="100px"
                                                 ValidationGroup="modifyGoal" />
                                             <asp:Label ID="deleteGoalResultLbl" runat="server" Text=""></asp:Label>
                                             <asp:Label ID="modifyGoalResultlbl" runat="server" Text=""></asp:Label>

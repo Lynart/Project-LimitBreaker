@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/ui/mp/MasterPage.master" AutoEventWireup="true"
+﻿<%@ Page Title="Use Case 5.7" Language="C#" MasterPageFile="~/ui/mp/MasterPage.master" AutoEventWireup="true"
     CodeFile="manageExerciseExperience.aspx.cs" Inherits="systemExercise_manageExerciseExperience" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
@@ -29,6 +29,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div class="useCase"><h3>Use Case 5.7</h3></div>
     <div class="ButtonChoiceScheduling" style="width: 50%; margin: 0px auto 0px auto">
         <asp:Button ID="mngExerciseExpBtn" runat="server" Text="Manage Exercise Experience"
             CssClass="button" OnClick="mngExerciseExpBtn_Click" />
@@ -43,6 +44,7 @@
         <ContentTemplate>
                                     <h2 style="text-align:center;">Manage Exercise Experience Formulas</h2>
                 <uc1:viewExercise ID="viewExerciseExp" runat="server" />
+
                 <asp:MultiView ID="manageExperienceMultiView" runat="server">
                     <asp:View ID="emptyView" runat="server">
                     </asp:View>
