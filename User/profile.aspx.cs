@@ -54,17 +54,10 @@ public partial class User_profile : System.Web.UI.Page
             {
                 rmr.Text = Convert.ToString(Math.Round(tempRmr, 2));
             }
-            else
-            {
-                rmr.Text = "<a href=\"updateStats.aspx\">Update Stats</a>";
-            }
+
             if (tempBmi > 1)
             {
                 bmi.Text = Convert.ToString(Math.Round(tempBmi, 2));
-            }
-            else
-            {
-                bmi.Text = "<a href=\"updateStats.aspx\">Update Stats</a>";
             }
 
             populateWeightChart(username);

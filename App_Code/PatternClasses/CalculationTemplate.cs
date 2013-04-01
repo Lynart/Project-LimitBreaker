@@ -12,15 +12,15 @@ public abstract class CalculationTemplate
 	{
 	}
 
-    public Double metricCalculate(Double weight, Double height)
+    public Double metricCalculate(Double weight, Double height, String gender)
     {
-        return calculate(weight, height);
+        return calculate(weight, height, gender);
     }
 
-    public Double imperialCalculate(Double weight, Double foot, Double inch)
+    public Double imperialCalculate(Double weight, Double foot, Double inch, String gender)
     {
-        return calculate(weight, foot * 30.48 + inch * 2.54);
+        return calculate(weight, foot * 30.48 + inch * 2.54, gender);
     }
 
-    public abstract Double calculate(Double weight, Double height);
+    abstract Double calculate(Double weight, Double height, String gender);
 }

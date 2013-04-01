@@ -4,16 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 
-/// <summary>
-/// Summary description for UserManager
-/// </summary>
 public class UserManager
 {
-    System.Web.HttpApplication _context;
-    public UserManager()
+    LimitBreaker limitbreaker;
+    MembershipUser aspUser;
+    BMITemplate bmiCalculator;
+
+    public UserManager(){}
+
+    public UserManager(String username)
     {
-        //Reference to curent application instance
-        _context = System.Web.HttpContext.Current.ApplicationInstance;
+        using (var context = new Layer2Container())
+        {
+            limitbreaker = context.LimitBreakers.Where(breaker => breaker.username == username).FirstOrDefault();
+        }
+        aspUser = Membership.GetUser(username);
+        bmiCalculator = new BMITemplate();
     }
 
     //rc status: 1 failure due to servers, 2 name already taken, 0 success
@@ -66,7 +72,7 @@ public class UserManager
             stats.weight = weight;
             stats.height = height;
             stats.rmr = 0;
-            stats.bmi = 0;
+            stats.bmi = bmiCalculator.metricCalculate(weight, height, user.gender);
             stats.vo2MAX = 0;
 
             stats.LimitBreaker = user;

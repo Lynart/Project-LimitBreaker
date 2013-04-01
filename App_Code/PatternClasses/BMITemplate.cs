@@ -11,7 +11,7 @@ public class BMITemplate:CalculationTemplate
 	public BMITemplate()
 	{
 	}
-    public Double calculate(Double weight, Double height)
+    Double calculate(Double weight, Double height, String gender)
     {
         return weight / (Math.Pow(height / 100, 2));
     }
