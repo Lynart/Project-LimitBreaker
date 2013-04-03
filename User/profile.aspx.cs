@@ -12,6 +12,7 @@ public partial class User_profile : System.Web.UI.Page
     UserManager manager = new UserManager();
     ExperienceManager expMngr = new ExperienceManager();
     LeaderboardManager ldrMngr = new LeaderboardManager();
+    ProfileUser user;
 
     public string JSyears = "";
     public string JSmonths = "";
@@ -25,29 +26,28 @@ public partial class User_profile : System.Web.UI.Page
 
         if (User.Identity.Name != "")
         {
-            String username = User.Identity.Name;
-            Statistics userStats = manager.getStats(username);
-            alias.Text = username;
-            double tempRmr = userStats.rmr;
-            double tempBmi = userStats.bmi;
-            string reqExp = Convert.ToString(expMngr.getRequiredExperienceForLevel(userStats.level));
-            string curExp = Convert.ToString(userStats.experience);
-            levelLbl.Text = "Level: " + Convert.ToString(userStats.level);
+            user = new ProfileUser(User.Identity.Name);
+            alias.Text = user.getUsername();
+            double tempRmr = user.getRMR();
+            double tempBmi = user.getBMI();
+            string reqExp = Convert.ToString(expMngr.getRequiredExperienceForLevel(user.getLvl()));
+            string curExp = Convert.ToString(user.getExp());
+            levelLbl.Text = "Level: " + Convert.ToString(user.getLvl());
             currentExpLbl.Text = curExp;
             reqExpLbl.Text = "  /  " + reqExp + "  Experience";
             expBar.Attributes.Add("value", curExp);
             expBar.Attributes.Add("max", reqExp);
             expBar.Attributes.Add("title", Convert.ToString(Math.Round(Convert.ToDouble(curExp)/Convert.ToDouble(reqExp)*100, 1)) + "% through the current level");
-            LeaderBoardItem userItem = ldrMngr.getUserValues(username);
+            LeaderBoardItem userItem = ldrMngr.getUserValues(user.getUsername());
             achievedGoalslbl.Text = userItem.numGoals.ToString();
             loggedExerciseslbl.Text = userItem.numLogged.ToString();
-            populateMedals(username);
+            populateMedals(user.getUsername());
 
             if (!Page.IsPostBack)
             {
-                newWeight.Text = Convert.ToString(Math.Round(userStats.weight, 2));
-                newHeight.Text = Convert.ToString(Math.Round(userStats.height, 2));
-                email.Text = manager.getLimitBreaker(username).email;
+                newWeight.Text = Convert.ToString(Math.Round(user.getWeight(), 2));
+                newHeight.Text = Convert.ToString(Math.Round(user.getHeight(), 2));
+                email.Text = user.getEmail();
             }
 
             if (tempRmr > 1)
@@ -60,7 +60,7 @@ public partial class User_profile : System.Web.UI.Page
                 bmi.Text = Convert.ToString(Math.Round(tempBmi, 2));
             }
 
-            populateWeightChart(username);
+            populateWeightChart();
         }
         else
         { 
@@ -69,25 +69,21 @@ public partial class User_profile : System.Web.UI.Page
     }
     protected void updateStats_Click(object sender, EventArgs e)
     {
-        String username = User.Identity.Name;
-        if (manager.updateWeight(username, Convert.ToDouble(newWeight.Text)))
+        if (user.updateWeight(Convert.ToDouble(newWeight.Text)))
         {
             updateResultLbl.Text = "You have successfully updated your profile!";
-            populateWeightChart(username);
+            populateWeightChart();
         }
         else
         {
             updateResultLbl.Text = "Please wait 24 hours before updating your profile again";
         }
-        manager.updateHeight(username, Convert.ToDouble(newHeight.Text));
-        manager.updateRMR(username);
-        manager.updateBMI(username);
-        manager.updateEmail(username, email.Text);
-        Statistics userStats = manager.getStats(username);
-        newWeight.Text = Convert.ToString(Math.Round(userStats.weight, 2));
-        newHeight.Text = Convert.ToString(Math.Round(userStats.height, 2));
-        rmr.Text = Convert.ToString(Math.Round(userStats.rmr, 2));
-        bmi.Text = Convert.ToString(Math.Round(userStats.bmi, 2));       
+        user.updateHeight(Convert.ToDouble(newHeight.Text));
+        user.updateEmail(email.Text);
+        newWeight.Text = Convert.ToString(Math.Round(user.getWeight(), 2));
+        newHeight.Text = Convert.ToString(Math.Round(user.getHeight(), 2));
+        rmr.Text = Convert.ToString(Math.Round(user.getRMR(), 2));
+        bmi.Text = Convert.ToString(Math.Round(user.getBMI(), 2));       
     }
 
     public void populateMedals(string userName)
@@ -121,10 +117,10 @@ public partial class User_profile : System.Web.UI.Page
         }
     }
 
-    public void populateWeightChart(string userName)
+    public void populateWeightChart()
     {
         //Date format is dd/mm/yyyy  eg: 14/03/2013
-        List<OldWeight> weightList = manager.getAllOldWeights(userName);
+        List<OldWeight> weightList = user.getOldWeights();
         int size = weightList.Count;
         string[] tempFull;
         string[] tempDate;
@@ -162,7 +158,7 @@ public partial class User_profile : System.Web.UI.Page
             JSyears += "," + tempDate[2];
             JSmonths += "," + tempDate[1];
             JSdays += "," + tempDate[0];
-            JSweights += "," + manager.getStats(userName).weight.ToString();
+            JSweights += "," + user.getWeight().ToString();
         }
 
         else
@@ -172,7 +168,7 @@ public partial class User_profile : System.Web.UI.Page
             JSyears += tempDate[2];
             JSmonths += tempDate[1];
             JSdays += tempDate[0];
-            JSweights += manager.getStats(userName).weight.ToString();
+            JSweights += user.getWeight().ToString();
         }
 
         ClientScript.RegisterStartupScript(GetType(), "hwa", "load();", true);
