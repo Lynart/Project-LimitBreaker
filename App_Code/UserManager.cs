@@ -8,7 +8,6 @@ public class UserManager
 {
     LimitBreaker limitbreaker;
     MembershipUser aspUser;
-    BMITemplate bmiCalculator;
 
     public UserManager(){}
 
@@ -19,7 +18,6 @@ public class UserManager
             limitbreaker = context.LimitBreakers.Where(breaker => breaker.username == username).FirstOrDefault();
         }
         aspUser = Membership.GetUser(username);
-        bmiCalculator = new BMITemplate();
     }
 
     //rc status: 1 failure due to servers, 2 name already taken, 0 success
@@ -72,7 +70,7 @@ public class UserManager
             stats.weight = weight;
             stats.height = height;
             stats.rmr = 0;
-            stats.bmi = bmiCalculator.metricCalculate(weight, height, user.gender);
+            stats.bmi = 0;
             stats.vo2MAX = 0;
 
             stats.LimitBreaker = user;
