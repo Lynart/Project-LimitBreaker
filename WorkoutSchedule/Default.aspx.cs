@@ -14,6 +14,10 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
     ScheduleManager scheduleManager = new ScheduleManager();
     ExerciseManager exerciseManager = new ExerciseManager();
     SystemExerciseManager sysExerciseManager = new SystemExerciseManager();
+    //*****Template Stuff*****
+    ViewScheduledItemsTemplate scheduleItemGetter;
+    ScheduleNewItemTemplate itemScheduler;
+    //************************
     routineManager routineManager = new routineManager();
     bool atlernatingColor = true;
     static bool addNewItem = false;
@@ -144,7 +148,14 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
         List<ScheduledRoutine> routine;
         List<scheduledItem> items;
 
-        items = scheduleManager.getScheduledItemsByDay(userID, dt);
+
+
+        scheduleItemGetter = new ItemsByDay();
+        items = scheduleItemGetter.getScheduledItems(userID, dt);
+        
+
+        //items = scheduleManager.getScheduledItemsByDay(userID, dt);
+
 
 
         //Order the items based on the start time, from earlist to latest
@@ -330,7 +341,10 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
             btnAddExerciseFromRemove.Enabled = true;
             List<scheduledItem> items;
             itemScheduledOn = Convert.ToDateTime(ddl_month.SelectedValue + "/" + ((LinkButton)e.CommandSource).Text.Trim() + "/" + ddl_year.SelectedValue);
-            items = scheduleManager.getScheduledItemsByDayOfYear(userID, itemScheduledOn);
+
+            scheduleItemGetter = new ItemsByDayOfYear();
+            items = scheduleItemGetter.getScheduledItems(userID, itemScheduledOn);
+            //items = scheduleManager.getScheduledItemsByDayOfYear(userID, itemScheduledOn);
             items = sortItems(items);
             GridViewScheduledItems.DataSource = items;
             GridViewScheduledItems.DataBind();
@@ -373,10 +387,10 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
                 selectedDaysOfWeek.Add(cblDayOfWeek.Items[i].Value);
             }
         }
-
-        if (scheduleManager.scheduleNewRoutine(Convert.ToInt32(ddlRoutines.SelectedValue),
+        itemScheduler = new ScheduleNewRoutine();
+        if (itemScheduler.scheduleNewItem(Convert.ToInt32(ddlRoutines.SelectedValue),
             Convert.ToDateTime(
-            tbDate_routine.Text + " " + ddlHours_routine.Text + ":" + ddlMinutes_routine.Text + ":00 " + ddlAmPm_routine.Text), Convert.ToInt32(userID), false, 
+            tbDate_routine.Text + " " + ddlHours_routine.Text + ":" + ddlMinutes_routine.Text + ":00 " + ddlAmPm_routine.Text), Convert.ToInt32(userID), false,
             cbRepeatRoutine.Checked,
             ddlRepeatType.SelectedItem.Text,
             Convert.ToInt32(ddlRepeatEvery.SelectedItem.Text),
@@ -439,10 +453,8 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
                 selectedDaysOfWeek.Add(cblDayOfWeek.Items[i].Value);
             }
         }
-
-        if (
-            scheduleManager.scheduleNewExercise
-            (viewExercises.ddlSelectedValue,
+        itemScheduler = new ScheduleNewExercise();
+        if (itemScheduler.scheduleNewItem(viewExercises.ddlSelectedValue,
             Convert.ToDateTime(tbDate_exercise.Text + " " + ddlHours_exercise.Text + ":" + ddlMinutes_exercise.Text + ":00 " + ddlAmPm_exercise.Text),
             Convert.ToInt32(userID),
             false,
@@ -452,7 +464,7 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
             endsOnAfterValue,
             rblEnd.SelectedItem.Text,
             selectedDaysOfWeek)
-            )
+            )  
         {
             addNewItem = true;
             clearScheduleForm();
@@ -505,15 +517,28 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
 
     protected void ddlRoutines_indexChanged(object sender, EventArgs e)
     {
-      Routine selectedRoutine = routineManager.getRoutineByName(ddlRoutines.SelectedItem.Text);
-      ICollection<Exercise> exercisesInRoutine = routineManager.getExerciseFromRoutine(selectedRoutine.id);
-      listBoxExercisesForRoutine.Items.Clear();
-      
-      foreach (var item in exercisesInRoutine)
-      {
-          listBoxExercisesForRoutine.Items.Add(item.name);
-      }
-      listBoxExercisesForRoutine.DataBind();
+        if (ddlRoutines.SelectedItem != null)
+        {
+            Routine selectedRoutine = routineManager.getRoutineByName(ddlRoutines.SelectedItem.Text);
+            ICollection<Exercise> exercisesInRoutine = routineManager.getExerciseFromRoutine(selectedRoutine.id);
+            listBoxExercisesForRoutine.Items.Clear();
+
+            if (exercisesInRoutine != null)
+            {
+                foreach (var item in exercisesInRoutine)
+                {
+                    listBoxExercisesForRoutine.Items.Add(item.name);
+                }
+                listBoxExercisesForRoutine.DataBind();
+                listBoxExercisesForRoutine.Visible = true;
+                lblExercisesForRoutineCreate.Visible = true;
+            }
+        }
+        else
+        {
+            listBoxExercisesForRoutine.Visible = false;
+            lblExercisesForRoutineCreate.Visible = false;
+        }
     }
 
     protected void goBack_Click(object sender, EventArgs e)
@@ -845,7 +870,6 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
         }
 
 
-
     }
     protected void populateRemoveItems()
     {
@@ -853,13 +877,15 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
         GridViewScheduledItems.DataBind();
         if (tbRemoveDate.Text != "" && !viewingAllRemoveItems && RegularExpressionValidator1.IsValid)
         {
-            schdledItems = scheduleManager.getScheduledItemsByDayOfYear(userID, Convert.ToDateTime(tbRemoveDate.Text));
+            scheduleItemGetter = new ItemsByDayOfYear();
+            schdledItems = scheduleItemGetter.getScheduledItems(userID, Convert.ToDateTime(tbRemoveDate.Text));
             schdledItems = sortItems(schdledItems);
         }
         else
         {
             itemScheduledOn = Convert.ToDateTime("01/" + ddlRemoveMonth.SelectedItem.Text + "/" + ddl_year.SelectedItem.Text);
-            schdledItems = scheduleManager.getScheduledItemsForMonth(userID, itemScheduledOn);
+            scheduleItemGetter = new ItemsForMonth();
+            schdledItems = scheduleItemGetter.getScheduledItems(userID, itemScheduledOn);
             schdledItems = sortItems(schdledItems);
         }
         
@@ -1066,8 +1092,8 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
         viewingAllRemoveItems = true;
         hideModifyForm();
         itemScheduledOn = Convert.ToDateTime("01/" + ddlRemoveMonth.SelectedItem.Text + "/" + ddl_year.SelectedItem.Text);
-
-        schdledItems = scheduleManager.getScheduledItemsForMonth(userID, itemScheduledOn);
+        scheduleItemGetter = new ItemsForMonth();
+        schdledItems = scheduleItemGetter.getScheduledItems(userID, itemScheduledOn);
         schdledItems = sortItems(schdledItems);
         GridViewScheduledItems.DataSource = schdledItems;
         GridViewScheduledItems.DataBind();
