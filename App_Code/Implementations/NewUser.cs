@@ -10,7 +10,6 @@ using System.Web.Security;
 public class NewUser : AbstractUser
 {
     String message;
-    EmailManager emailManager = EmailManager.getInstance();
 
     public NewUser(String username, String email, String password, String gender, DateTime birthday, Double weight, Double height)
     {

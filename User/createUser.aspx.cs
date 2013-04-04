@@ -11,7 +11,6 @@ using System.Web.UI.HtmlControls;
 //User name rules fo the regex on the aspx file: Usernames must be at least 3 characters long, starting with a letter, be alphanumeric and may contain . _ or -
 public partial class User_createUser : System.Web.UI.Page
 {
-    UserManager manager = new UserManager();
     EmailManager emailManager = EmailManager.getInstance();
     protected void Page_Load(object sender, EventArgs e)
     {

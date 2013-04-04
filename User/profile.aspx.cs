@@ -9,7 +9,6 @@ using System.Web.UI.HtmlControls;
 
 public partial class User_profile : System.Web.UI.Page
 {
-    UserManager manager = new UserManager();
     ExperienceManager expMngr = new ExperienceManager();
     LeaderboardManager ldrMngr = new LeaderboardManager();
     ProfileUser user;
