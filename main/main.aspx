@@ -50,7 +50,7 @@
 </style>
 <body>
     <div class="section white" id="section1">
-        <h2>Section 1</h2>
+        <h2>How do I get started?</h2>
         <p>
             MY Spectre around me night and day
                 Like a wild beast guards my way;
@@ -61,10 +61,13 @@
             <li>1</li>
             <li><a href="#section2">2</a></li>
             <li><a href="#section3">3</a></li>
+            <li><a href="#section4">4</a></li>
+            <li><a href="#section5">5</a></li>
+            <li><a href="#section6">6</a></li>
         </ul>
     </div>
     <div class="section white" id="section2">
-        <h2>Section 2</h2>
+        <h2>Become a Limit Breaker!</h2>
         <p>
             ‘A fathomless and boundless deep,
                 There we wander, there we weep;
@@ -76,10 +79,14 @@
             <li><a href="#section1">1</a></li>
             <li>2</li>
             <li><a href="#section3">3</a></li>
+            <li><a href="#section4">4</a></li>
+            <li><a href="#section5">5</a></li>
+            <li><a href="#section6">6</a></li>
         </ul>
     </div>
     <div class="section white" id="section3">
-        <h2>Section 3</h2>
+        <h2>Start tracking your exercises</h2>
+        <h4>...or create your own routines and track those!</h4>
         <p>
             ‘He scents thy footsteps in the snow
                 Wheresoever thou dost go,
@@ -91,6 +98,64 @@
             <li><a href="#section1">1</a></li>
             <li><a href="#section2">2</a></li>
             <li>3</li>
+            <li><a href="#section4">4</a></li>
+            <li><a href="#section5">5</a></li>
+            <li><a href="#section6">6</a></li>
+        </ul>
+    </div>
+    <div class="section white" id="section4">
+        <h2>Level up!</h2>
+        <p>
+            ‘He scents thy footsteps in the snow
+                Wheresoever thou dost go,
+                Thro’ the wintry hail and rain.
+                When wilt thou return again?
+
+        </p>
+        <ul class="nav">
+            <li><a href="#section1">1</a></li>
+            <li><a href="#section2">2</a></li>
+            <li><a href="#section3">3</a></li>
+            <li>4</li>
+            <li><a href="#section5">5</a></li>
+            <li><a href="#section6">6</a></li>
+        </ul>
+    </div>
+    <div class="section white" id="section5">
+        <h2>Participate in the leaderboards to earn medals</h2>
+        <h4>...or make and strive for your own goals</h4>
+        <p>
+            ‘He scents thy footsteps in the snow
+                Wheresoever thou dost go,
+                Thro’ the wintry hail and rain.
+                When wilt thou return again?
+
+        </p>
+        <ul class="nav">
+            <li><a href="#section1">1</a></li>
+            <li><a href="#section2">2</a></li>
+            <li><a href="#section3">3</a></li>
+            <li><a href="#section4">4</a></li>
+            <li>5</li>
+            <li><a href="#section6">6</a></li>
+        </ul>
+    </div>
+    <div class="section white" id="section6">
+        <h2>Good luck, Have fun!</h2>
+        <p>
+            ‘He scents thy footsteps in the snow
+                Wheresoever thou dost go,
+                Thro’ the wintry hail and rain.
+                When wilt thou return again?
+
+        </p>
+        <ul class="nav">
+            <li><a href="#section1">1</a></li>
+            <li><a href="#section2">2</a></li>
+            <li><a href="#section3">3</a></li>
+            <li><a href="#section4">4</a></li>
+            <li><a href="#section5">5</a></li>
+            <li>6</li>
         </ul>
     </div>
 
