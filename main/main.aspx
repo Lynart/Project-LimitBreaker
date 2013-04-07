@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-    <title>Website Horizontal Scrolling with jQuery</title>
+    <title>Project Limit Breaker - Getting Started</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="description" content="Website Horizontal Scrolling with jQuery" />
     <meta name="keywords" content="jquery, horizontal, scrolling, scroll, smooth" />
@@ -17,7 +17,7 @@
     }
 
     a {
-        color: #fff;
+        color: #5D7B9D;
         text-decoration: none;
     }
 
@@ -52,10 +52,10 @@
     <div class="section white" id="section1">
         <h2>How do I get started?</h2>
         <p>
-            MY Spectre around me night and day
-                Like a wild beast guards my way;
-                My Emanation far within
-                Weeps incessantly for my sin.
+            From creating an account to learning what you can do it, this is the right page to be in 
+        </p>
+        <p>
+            Continue on to learn how to make working out a fun gaming experience
         </p>
         <ul class="nav">
             <li>1</li>
@@ -67,13 +67,15 @@
         </ul>
     </div>
     <div class="section white" id="section2">
-        <h2>Become a Limit Breaker!</h2>
+        <h2>Become a Limit Breaker</h2>
         <p>
-            ‘A fathomless and boundless deep,
-                There we wander, there we weep;
-                On the hungry craving wind
-                My Spectre follows thee behind.
-
+            <a target="_blank" href="../User/createUser.aspx">Create an account</a> and set up your profile
+        </p>
+        <p>
+            We need information such as your weight, height, age, and gender to produce the most accurate statistics when logging your data
+        </p>
+        <p>
+            You are now on your way to breaking limits
         </p>
         <ul class="nav">
             <li><a href="#section1">1</a></li>
@@ -85,8 +87,7 @@
         </ul>
     </div>
     <div class="section white" id="section3">
-        <h2>Start tracking your exercises</h2>
-        <h4>...or create your own routines and track those!</h4>
+        <h2>Start tracking!</h2>
         <p>
             ‘He scents thy footsteps in the snow
                 Wheresoever thou dost go,
@@ -122,8 +123,7 @@
         </ul>
     </div>
     <div class="section white" id="section5">
-        <h2>Participate in the leaderboards to earn medals</h2>
-        <h4>...or make and strive for your own goals</h4>
+        <h2>Earn medals!</h2>
         <p>
             ‘He scents thy footsteps in the snow
                 Wheresoever thou dost go,

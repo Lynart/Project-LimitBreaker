@@ -33,7 +33,9 @@ body {
     }
     .section p {
         margin: 20px 0px 0px 50px;
-        width: 600px;
+        /* width: 600px; */
+        width: 2000px;
+        font-size: x-large;
     }
 
 .black {
