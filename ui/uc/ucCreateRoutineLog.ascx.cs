@@ -11,7 +11,7 @@ public partial class ui_uc_ucCreateRoutineLog : System.Web.UI.UserControl
     public int userID { get; set; }
     ListBox lb;
     SystemExerciseManager sysManager;
-    LoggedExerciseManager logManager;
+    RoutineLogger logManager;
     routineManager routManager;
     GoalManager goalMngr;
     int exerciseID;
@@ -21,7 +21,7 @@ public partial class ui_uc_ucCreateRoutineLog : System.Web.UI.UserControl
     {
         sysManager = new SystemExerciseManager();
         routManager = new routineManager();
-        logManager = new LoggedExerciseManager();
+        logManager = new RoutineLogger();
         goalMngr = new GoalManager();
         lb = (ListBox)this.Parent.FindControl("lbRoutines");
 
@@ -75,7 +75,7 @@ public partial class ui_uc_ucCreateRoutineLog : System.Web.UI.UserControl
             int rep = Convert.ToInt32(tbRep.Text.ToString());
             
             ExperienceManager expMngr = new ExperienceManager();
-            int exp = logManager.logExerciseIntoRoutine(userID, exerciseID, routineID, rep, time, weight, distance, note);
+            int exp = logManager.logExercise(userID, exerciseID, rep, time, weight, distance, note, routineID);
 
             ExerciseGoal eg = goalMngr.getUnachievedGoalByExerciseNameAndUserID(sysManager.getExerciseInfo(exerciseID).name, userID);
 

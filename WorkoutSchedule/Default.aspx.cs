@@ -23,7 +23,7 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
     static bool addNewItem = false;
     String currentUser;
     bool authenticated;
-    UserManager userManager = new UserManager();
+    ProfileUser userManager;
     static int userID;
     static DateTime itemScheduledOn;
     static bool modifyExercise;
@@ -33,13 +33,14 @@ public partial class WorkoutSchedule_Default4 : System.Web.UI.Page
     static bool viewingAllRemoveItems = false;
     protected void Page_Load(object sender, EventArgs e)
     {
+        userManager = new ProfileUser(User.Identity.Name);
         HtmlGenericControl li = (HtmlGenericControl)this.Page.Master.FindControl("Ulnav").FindControl("liWorkoutSchedule");
         li.Attributes.Add("class", "active");
 
         Page.MaintainScrollPositionOnPostBack = true;
         authenticated = System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
         currentUser = authenticated ? HttpContext.Current.User.Identity.Name : "";
-        userID = userManager.getUserID(currentUser);
+        userID = userManager.getLimitBreaker().id;
 
         if (authenticated && userID != -1)
         {
