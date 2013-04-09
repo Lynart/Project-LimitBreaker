@@ -118,4 +118,11 @@ public class ExerciseLogger : AbstractLogger, LogStrategy
             }
         }
     }
+    public List<LoggedExercise> getLoggedExercises(Int32 userID, Int32 exerciseID)
+    {
+        using (var context = new Layer2Container())
+        {
+            return context.LoggedExercises.Where(log => log.Exercise.id == exerciseID && log.LimitBreaker.id == userID).OrderByDescending(log => log.timeLogged).ToList();
+        }
+    }
 }

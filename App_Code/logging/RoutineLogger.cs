@@ -120,4 +120,12 @@ public class RoutineLogger : AbstractLogger, LogStrategy
             }
         }
     }
+
+    public List<LoggedExercise> getLoggedExercises(Int32 userID, Int32 routineID)
+    {
+        using (var context = new Layer2Container())
+        {
+            return context.LoggedExercises.Where(log => log.LimitBreaker.id == userID && log.Routine.id == routineID).OrderByDescending(log => log.timeLogged).ToList();
+        }
+    }
 }

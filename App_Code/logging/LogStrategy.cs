@@ -12,4 +12,5 @@ interface LogStrategy
     LoggedExercise logExists(Int32 exerciseID, Int32 userID, Int32 routineID=0);
     LoggedExercise createLoggedExercise(Int32 userID, Int32 exerciseID, Int32 routineID=0);
     SetAttributes createSet(Int32 rep, Int32 time, Int32 weight, Double distance, Int64 logID, string note=null);
+    List<LoggedExercise> getLoggedExercises(Int32 userID, Int32 exerciseOrRoutineId);
 }
