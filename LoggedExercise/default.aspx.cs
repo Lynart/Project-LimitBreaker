@@ -10,9 +10,9 @@ using System.Web.UI.HtmlControls;
 
 public partial class LoggedExercise_default : System.Web.UI.Page
 {
+    ExerciseLogger exerciseLogger = new ExerciseLogger();
     SystemExerciseManager exerciseManager = new SystemExerciseManager();
-    LoggedExerciseManager logManager = new LoggedExerciseManager();
-    UserManager userManager = new UserManager();
+    ProfileUser userManager;
     GoalManager goalMngr = new GoalManager();
 
     Exercise selectedExercise;
@@ -22,11 +22,11 @@ public partial class LoggedExercise_default : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        userManager = new ProfileUser(User.Identity.Name);
         HtmlGenericControl li = (HtmlGenericControl)this.Page.Master.FindControl("Ulnav").FindControl("liLoggedExercises");
         li.Attributes.Add("class", "active");
 
-        user = userManager.getLimitBreaker(User.Identity.Name);
+        user = userManager.getLimitBreaker();
         ucViewExercise.userControlEventHappened += new EventHandler(viewExercises_userControlEventHappened);
         if (!IsPostBack)
         {
@@ -173,7 +173,7 @@ public partial class LoggedExercise_default : System.Web.UI.Page
         //Begin log operations and exp extraction
 
         ExperienceManager expMngr = new ExperienceManager();
-        int exp = logManager.logExercise(user.id, selectedExercise.id, repValue, timeValue, weightValue, distanceValue);
+        int exp = exerciseLogger.logExercise(user.id, selectedExercise.id, repValue, timeValue, weightValue, distanceValue);
         ExerciseGoal eg = goalMngr.getUnachievedGoalByExerciseNameAndUserID(selectedExercise.name, user.id);
 
         if (eg != null)
@@ -216,15 +216,15 @@ public partial class LoggedExercise_default : System.Web.UI.Page
     {
         if (selectedExercise != null)
         {
-            List<LoggedExercise> logs = logManager.getLoggedExercises(user.id, selectedExercise.id);
+            List<LoggedExercise> logs = exerciseLogger.getLoggedExercises(user.id, selectedExercise.id);
             loggedExercises.DataSource = logs;
             loggedExercises.DataBind();
         }
     }
     protected void loggedExercises_SelectedIndexChanged(object sender, EventArgs e)
     {
-        List<SetAttributes> sets = logManager.getSetAttributes(logID);
-        setsLbl.Text = logManager.setsToString(sets);
+        List<SetAttributes> sets = exerciseLogger.getSetAttributes(logID);
+        setsLbl.Text = exerciseLogger.setsToString(sets);
     }
 
     private void disableLabels()
