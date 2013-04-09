@@ -12,12 +12,12 @@ public class RoutineLogger : AbstractLogger, LogStrategy
 	{
 
 	}
-    public int logExercise(Int32 userID, Int32 exerciseID, Int32 reps, Int32 time, Int32 weight, Double distance, string note=null, Int32 routineID = 0)
+    public int logExercise(Int32 userID, Int32 exerciseID, Int32 reps, Int32 time, Int32 weight, Double distance, string note, Int32 routineID)
     {       //changed the return type to return the amount of exp rewarded
         //Get a logged exercise that has been logged within the hour and with the same exercise, else create a new one
         using (var context = new Layer2Container())
         {
-            LoggedExercise log = logExists(exerciseID, userID, routineID=0);
+            LoggedExercise log = logExists(exerciseID, userID, routineID);
             SetAttributes set;
             if (log != null)
             {
@@ -41,7 +41,7 @@ public class RoutineLogger : AbstractLogger, LogStrategy
         }
     }
 
-    public LoggedExercise logExists(Int32 exerciseID, Int32 userID, Int32 routineID=0)
+    public LoggedExercise logExists(Int32 exerciseID, Int32 userID, Int32 routineID)
     {
         using (var context = new Layer2Container())
         {
@@ -65,7 +65,7 @@ public class RoutineLogger : AbstractLogger, LogStrategy
         }
     }
 
-    public LoggedExercise createLoggedExercise(Int32 userID, Int32 exerciseID, Int32 routineID=0)
+    public LoggedExercise createLoggedExercise(Int32 userID, Int32 exerciseID, Int32 routineID)
     {
 
         using (var context = new Layer2Container())
@@ -93,7 +93,7 @@ public class RoutineLogger : AbstractLogger, LogStrategy
         }
     }
 
-    public SetAttributes createSet(Int32 rep, Int32 time, Int32 weight, Double distance, Int64 logID, string note=null)
+    public SetAttributes createSet(Int32 rep, Int32 time, Int32 weight, Double distance, Int64 logID, string note)
     {
 
         using (var context = new Layer2Container())
