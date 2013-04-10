@@ -12,5 +12,7 @@ public partial class _default : System.Web.UI.Page
     {    
         HtmlGenericControl li = (HtmlGenericControl)this.Page.Master.FindControl("Ulnav").FindControl("lihome");
         li.Attributes.Add("class", "active");
+
+        Response.Redirect("~/main/Default.aspx");
     }
 }

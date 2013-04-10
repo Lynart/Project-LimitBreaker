@@ -71,6 +71,7 @@
         <p>
             <a target="_blank" href="../User/createUser.aspx">Create an account</a> and set up your profile
         </p>
+        <img src="../ui/images/gs_createAccount.png" alt="Account Creation" />
         <p>
             We need information such as your weight, height, age, and gender to produce the most accurate statistics when logging your data
         </p>
@@ -89,11 +90,20 @@
     <div class="section white" id="section3">
         <h2>Start tracking!</h2>
         <p>
-            ‘He scents thy footsteps in the snow
-                Wheresoever thou dost go,
-                Thro’ the wintry hail and rain.
-                When wilt thou return again?
-
+            You can choose to track by recording a specific exercise or a set of exercises called a "routine"
+        </p>
+        <table>
+            <tr>
+                <td><a target="_blank" href="../LoggedExercise/default.aspx">Logging a specific exercise</a></td>
+                <td><a target="_blank" href="../userRoutines/Default.aspx">Logging through routine manager</a></td>
+            </tr>
+            <tr>
+                <td><img src="../ui/images/gs_exerciseTrack.png" alt="Track Exercise" /></td>
+                <td><img src="../ui/images/gs_routineTrack.png" alt="Track Routine" /></td>
+            </tr>
+        </table>
+        <p>
+            Check out the <a target="_blank" href="../support.aspx">F.A.Q.</a> to learn more about routines, tracking, and scheduling
         </p>
         <ul class="nav">
             <li><a href="#section1">1</a></li>
@@ -107,12 +117,23 @@
     <div class="section white" id="section4">
         <h2>Level up!</h2>
         <p>
-            ‘He scents thy footsteps in the snow
-                Wheresoever thou dost go,
-                Thro’ the wintry hail and rain.
-                When wilt thou return again?
-
+            You get levels based on the exercises you do. This shows how "strong" you have become and "attributes" you have attained
         </p>
+        <table>
+            <tr>
+                <td><a target="_blank" href="../User/profile.aspx">Track your progress</a></td>
+                <td><a target="_blank" href="../User/leaderboards.aspx">Check your rank</a></td>
+                
+            </tr>
+            <tr>
+                <td><img src="../ui/images/gs_profile.png" alt="User Profile" /></td>
+                <td><img src="../ui/images/gs_leaderboards.png" alt="Leaderboards" /></td>
+            </tr>
+        </table>
+        <p>
+            Also check out the other players in the system and see how you fair with them
+        </p>
+
         <ul class="nav">
             <li><a href="#section1">1</a></li>
             <li><a href="#section2">2</a></li>
@@ -125,11 +146,11 @@
     <div class="section white" id="section5">
         <h2>Earn medals!</h2>
         <p>
-            ‘He scents thy footsteps in the snow
-                Wheresoever thou dost go,
-                Thro’ the wintry hail and rain.
-                When wilt thou return again?
-
+            Leveling is not the only thing to do in this system. Also earn medals based on your ranking
+        </p>
+        <img src="../ui/images/gs_medals.png" alt="Account Creation" />
+        <p>
+            You can even create your own goals if being ranked first is trivial to you
         </p>
         <ul class="nav">
             <li><a href="#section1">1</a></li>
@@ -143,13 +164,23 @@
     <div class="section white" id="section6">
         <h2>Good luck, Have fun!</h2>
         <p>
-            ‘He scents thy footsteps in the snow
-                Wheresoever thou dost go,
-                Thro’ the wintry hail and rain.
-                When wilt thou return again?
-
+            You have learned enough to start using the system
         </p>
-        <ul class="nav">
+        <p>
+            All you have to do now is to break your own personal limits, reach for the top, and accomplish your goals
+        </p>
+        <br />
+        <p class="it">
+            “The mind is the limit. 
+        </p>
+        <p class="it">
+            As long as the mind can envision the fact that you can do something, you can do it, as long as you really believe 100 percent.” 
+        </p>
+        <p class="it">
+             - Arnold Schwarzenegger
+        </p>
+        <img src="../ui/images/arnold-conquer.jpg" alt="Arnold Conquer" />
+            <ul class="nav">
             <li><a href="#section1">1</a></li>
             <li><a href="#section2">2</a></li>
             <li><a href="#section3">3</a></li>

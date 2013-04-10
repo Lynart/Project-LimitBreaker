@@ -31,12 +31,41 @@ body {
     .section h4 {
         margin: 10px 0px 30px 100px;
     }
+
+     .section img {
+         margin: 20px 0px 0px 50px;
+    }
+
     .section p {
         margin: 20px 0px 0px 50px;
         /* width: 600px; */
         width: 2000px;
         font-size: x-large;
+    
+       }
+
+.it {
+    width: 800px !important;
+
+}
+
+.imageNote {
+    text-align:center;
+}
+
+    .section table a {
+        margin: 20px 0px 0px 50px;
+        font-size: x-large;
     }
+
+.textRow {
+    margin: 20px 0px 0px 50px;
+    font-size: x-large;
+}
+.tableText {
+    margin: 20px 0px 0px 50px;
+    font-size: x-large;
+}
 
 .black {
     color: #fff;
