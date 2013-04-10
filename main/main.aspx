@@ -150,7 +150,7 @@
         </p>
         <img src="../ui/images/gs_medals.png" alt="Account Creation" />
         <p>
-            You can even create your own goals if being ranked first is trivial to you
+            Set <a target="_blank" href="../LoggedExercise/manageExerciseGoals.aspx">goals</a> for yourself and then try to break your limits
         </p>
         <ul class="nav">
             <li><a href="#section1">1</a></li>
