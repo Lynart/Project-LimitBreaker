@@ -11,7 +11,7 @@ public partial class ui_uc_ucModifyDeleteRoutineLog : System.Web.UI.UserControl
     routineManager routManager;
     ListBox lb;
     SystemExerciseManager sysManager;
-    LoggedExerciseManager logManager;
+    RoutineLogger logManager;
     int routineID;
     int loggedExerciseID;
 
@@ -19,7 +19,7 @@ public partial class ui_uc_ucModifyDeleteRoutineLog : System.Web.UI.UserControl
     {
         sysManager = new SystemExerciseManager();
         routManager = new routineManager();
-        logManager = new LoggedExerciseManager();
+        logManager = new RoutineLogger();
 
         lb = (ListBox)this.Parent.FindControl("lbRoutines");
 

@@ -169,7 +169,7 @@ public class ExperienceManager
     public int calculateLoggedRoutineExperience(List<Exercise> exerciseSet, string userName)
     {
         int resultExp = 0;
-        LoggedExerciseManager setMngr = new LoggedExerciseManager();
+        RoutineLogger setMngr = new RoutineLogger();
 
         foreach (Exercise exer in exerciseSet)
         {
